@@ -2,7 +2,7 @@
 
 A live "second screen" for football: synthetic match events stream in, plain code computes the stats, AI agents explain why moments matter, a fact-checker verifies every claim against the data, and the result is shown as broadcast-style overlays, personalised by mode, club, player and language (including Nigerian Pidgin, Yoruba, Hausa and Igbo).
 
-> Status: day 1. Working: synthetic match generator, replayer, stats engine (with control-vs-chaos score), tests. Planned: AI agents, personalisation, translation, UI.
+> Status: day 1. Working: synthetic match generator, replayer, stats engine (with control-vs-chaos score), moment detector with overlay JSON, tests. Planned: AI agents (explainer, fact-checker, editor, localiser), personalisation, translation, UI.
 
 ## Replay a match live
 
@@ -13,6 +13,40 @@ python -m unittest discover -s tests -t .                                  # run
 ```
 
 The stats engine keeps whole-match totals and a rolling 5-minute window. The **chaos index** (0 to 1) blends how often the ball changes hands with how many passes go astray in that window: below 0.30 is *control*, above 0.55 is *chaos*, in between is *balanced*.
+
+## Detect moments (overlays)
+
+```bash
+python -m engine.moments --events data/match_001_events.jsonl
+```
+
+This prints a timeline of everything worth showing on screen and writes `data/match_001_overlays.json`. A match produces about 30 overlays, roughly one every three minutes: goals, big chances, cards, control/chaos shifts, pressing spells, spells of dominance, tough passes, the fastest shot, half time and full time.
+
+### Overlay format
+
+Each overlay is timed and machine-readable, so a broadcast renderer can place it on a live feed:
+
+```json
+{
+  "id": "ov012",
+  "kind": "state_shift",
+  "priority": 3,
+  "at": {"elapsed_seconds": 1721, "minute": 28, "second": 41, "half": 1},
+  "display_seconds": 7,
+  "headline": "Chaos",
+  "text": "The match has turned frantic. The ball changed hands 2.4 times a minute ...",
+  "team": null,
+  "player": null,
+  "facts": {"state": "chaos", "chaos_index": 0.58, "turnovers_per_min": 2.4},
+  "source_event_ids": [1043, 1051, 1066],
+  "last_event_id": 1068,
+  "verified": null
+}
+```
+
+- `facts` holds the numbers behind the text. The AI agents may reword the text but must not change these.
+- `source_event_ids` lists the raw events the overlay is based on. A source id never comes from after `last_event_id`, so an overlay cannot use information from the future.
+- `verified` stays `null` until the fact-checker agent has checked the claims against the data.
 
 ## Data is synthetic
 

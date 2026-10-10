@@ -130,6 +130,10 @@ class StatsEngine:
         while self._window and self._window[0][0] < cutoff:
             self._window.popleft()
 
+    def window_events(self) -> list:
+        """Events currently inside the rolling window, oldest first."""
+        return [ev for _, ev in self._window]
+
     def chaos_index(self, window: dict, span_minutes: float) -> float:
         """0 = calm control, 1 = chaos.
 
