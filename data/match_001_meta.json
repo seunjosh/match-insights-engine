@@ -1,0 +1,227 @@
+{
+  "match_id": "match_001",
+  "seed": 23,
+  "synthetic": true,
+  "teams": {
+    "home": {
+      "name": "Northbridge Rovers",
+      "code": "NBR",
+      "players": [
+        {
+          "id": "NBR01",
+          "name": "Sami Delaney",
+          "shirt": 1,
+          "position": "GK",
+          "base_x": 5,
+          "base_y": 50,
+          "skill": 1.066
+        },
+        {
+          "id": "NBR02",
+          "name": "Bruno Sterling-Vale",
+          "shirt": 2,
+          "position": "LB",
+          "base_x": 25,
+          "base_y": 15,
+          "skill": 0.961
+        },
+        {
+          "id": "NBR03",
+          "name": "Yusuf Quigley",
+          "shirt": 3,
+          "position": "CB",
+          "base_x": 22,
+          "base_y": 38,
+          "skill": 0.972
+        },
+        {
+          "id": "NBR04",
+          "name": "Mateo Ibrahim",
+          "shirt": 4,
+          "position": "CB",
+          "base_x": 22,
+          "base_y": 62,
+          "skill": 0.989
+        },
+        {
+          "id": "NBR05",
+          "name": "Oscar Takahashi",
+          "shirt": 5,
+          "position": "RB",
+          "base_x": 25,
+          "base_y": 85,
+          "skill": 0.991
+        },
+        {
+          "id": "NBR06",
+          "name": "Bruno Dunmore",
+          "shirt": 6,
+          "position": "CM",
+          "base_x": 45,
+          "base_y": 30,
+          "skill": 0.917
+        },
+        {
+          "id": "NBR07",
+          "name": "Harvey Novak",
+          "shirt": 7,
+          "position": "CM",
+          "base_x": 42,
+          "base_y": 50,
+          "skill": 0.904
+        },
+        {
+          "id": "NBR08",
+          "name": "Declan Lindqvist",
+          "shirt": 8,
+          "position": "CM",
+          "base_x": 45,
+          "base_y": 70,
+          "skill": 1.054
+        },
+        {
+          "id": "NBR09",
+          "name": "Nnamdi Abara",
+          "shirt": 9,
+          "position": "LW",
+          "base_x": 70,
+          "base_y": 15,
+          "skill": 0.907
+        },
+        {
+          "id": "NBR10",
+          "name": "Xavi Vasquez",
+          "shirt": 10,
+          "position": "ST",
+          "base_x": 78,
+          "base_y": 50,
+          "skill": 0.934
+        },
+        {
+          "id": "NBR11",
+          "name": "Nnamdi Yilmaz",
+          "shirt": 11,
+          "position": "RW",
+          "base_x": 70,
+          "base_y": 85,
+          "skill": 0.973
+        }
+      ]
+    },
+    "away": {
+      "name": "Eastvale United",
+      "code": "EVU",
+      "players": [
+        {
+          "id": "EVU01",
+          "name": "Xavi Sterling-Vale",
+          "shirt": 1,
+          "position": "GK",
+          "base_x": 5,
+          "base_y": 50,
+          "skill": 0.956
+        },
+        {
+          "id": "EVU02",
+          "name": "Ugo Sterling-Vale",
+          "shirt": 2,
+          "position": "LB",
+          "base_x": 25,
+          "base_y": 15,
+          "skill": 0.917
+        },
+        {
+          "id": "EVU03",
+          "name": "Giorgio Fontaine",
+          "shirt": 3,
+          "position": "CB",
+          "base_x": 22,
+          "base_y": 38,
+          "skill": 1.044
+        },
+        {
+          "id": "EVU04",
+          "name": "Ethan Vasquez",
+          "shirt": 4,
+          "position": "CB",
+          "base_x": 22,
+          "base_y": 62,
+          "skill": 1.028
+        },
+        {
+          "id": "EVU05",
+          "name": "Luca Abara",
+          "shirt": 5,
+          "position": "RB",
+          "base_x": 25,
+          "base_y": 85,
+          "skill": 0.936
+        },
+        {
+          "id": "EVU06",
+          "name": "Ugo Vasquez",
+          "shirt": 6,
+          "position": "CM",
+          "base_x": 45,
+          "base_y": 30,
+          "skill": 1.063
+        },
+        {
+          "id": "EVU07",
+          "name": "Mateo Sterling-Vale",
+          "shirt": 7,
+          "position": "CM",
+          "base_x": 42,
+          "base_y": 50,
+          "skill": 0.923
+        },
+        {
+          "id": "EVU08",
+          "name": "Gabriel Novak",
+          "shirt": 8,
+          "position": "CM",
+          "base_x": 45,
+          "base_y": 70,
+          "skill": 0.908
+        },
+        {
+          "id": "EVU09",
+          "name": "Rafael Sterling-Vale",
+          "shirt": 9,
+          "position": "LW",
+          "base_x": 70,
+          "base_y": 15,
+          "skill": 0.956
+        },
+        {
+          "id": "EVU10",
+          "name": "Viktor Dunmore",
+          "shirt": 10,
+          "position": "ST",
+          "base_x": 78,
+          "base_y": 50,
+          "skill": 0.974
+        },
+        {
+          "id": "EVU11",
+          "name": "Sami Rossi",
+          "shirt": 11,
+          "position": "RW",
+          "base_x": 70,
+          "base_y": 85,
+          "skill": 0.961
+        }
+      ]
+    }
+  },
+  "summary": {
+    "home": "Northbridge Rovers",
+    "away": "Eastvale United",
+    "final_score": "4-3",
+    "event_count": 1458
+  },
+  "pitch": {
+    "x": "0-100 home goal to away goal",
+    "y": "0-100 across width"
+  }
+}
