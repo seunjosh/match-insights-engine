@@ -1,0 +1,1745 @@
+[
+  {
+    "id": "ov001",
+    "kind": "fast_shot",
+    "priority": 2,
+    "at": {
+      "elapsed_seconds": 46,
+      "minute": 0,
+      "second": 46,
+      "half": 1
+    },
+    "display_seconds": 5,
+    "headline": "Fastest shot",
+    "text": "Bruno Dunmore (NBR) hits the hardest shot so far: 109 km/h.",
+    "team": "home",
+    "player": {
+      "id": "NBR06",
+      "name": "Bruno Dunmore"
+    },
+    "facts": {
+      "shot_speed_kmh": 109.3,
+      "outcome": "saved"
+    },
+    "source_event_ids": [
+      18
+    ],
+    "last_event_id": 18,
+    "verified": true,
+    "base_text": "Fastest shot of the match so far: Bruno Dunmore (NBR) at 109 km/h.",
+    "mode": "analyst",
+    "writer": "local-template",
+    "attempts": 1,
+    "check_log": [
+      {
+        "attempt": 1,
+        "stage": "text",
+        "text": "Bruno Dunmore (NBR) hits the hardest shot so far: 109 km/h.",
+        "ok": true,
+        "issues": []
+      }
+    ]
+  },
+  {
+    "id": "ov002",
+    "kind": "state_shift",
+    "priority": 3,
+    "at": {
+      "elapsed_seconds": 309,
+      "minute": 5,
+      "second": 9,
+      "half": 1
+    },
+    "display_seconds": 7,
+    "headline": "Chaos",
+    "text": "Chaos index 0.61: 2.0 turnovers a minute and 78.4% pass completion over the last 5 minutes.",
+    "team": null,
+    "player": null,
+    "facts": {
+      "state": "chaos",
+      "previous_state": "balanced",
+      "chaos_index": 0.61,
+      "turnovers_per_min": 2.0,
+      "window_pass_accuracy": 78.4,
+      "window_seconds": 300,
+      "possession_pct_window": {
+        "home": 62.2,
+        "away": 37.8
+      }
+    },
+    "source_event_ids": [
+      30,
+      33,
+      46,
+      51,
+      56,
+      64,
+      71,
+      75,
+      80,
+      84
+    ],
+    "last_event_id": 87,
+    "verified": true,
+    "base_text": "The match has turned frantic. The ball changed hands 2.0 times a minute and only 78.4% of passes found a team-mate over the last 5 minutes.",
+    "mode": "analyst",
+    "writer": "local-template",
+    "attempts": 1,
+    "check_log": [
+      {
+        "attempt": 1,
+        "stage": "text",
+        "text": "Chaos index 0.61: 2.0 turnovers a minute and 78.4% pass completion over the last 5 minutes.",
+        "ok": true,
+        "issues": []
+      }
+    ]
+  },
+  {
+    "id": "ov003",
+    "kind": "goal",
+    "priority": 5,
+    "at": {
+      "elapsed_seconds": 427,
+      "minute": 7,
+      "second": 7,
+      "half": 1
+    },
+    "display_seconds": 10,
+    "headline": "GOAL",
+    "text": "Mateo Sterling-Vale (EVU) scores: NBR 0-1 EVU. The shot carried an xG of 0.083 (8% chance) at 73 km/h. Eastvale United edge in front.",
+    "team": "away",
+    "player": {
+      "id": "EVU07",
+      "name": "Mateo Sterling-Vale"
+    },
+    "facts": {
+      "scorer_id": "EVU07",
+      "scorer": "Mateo Sterling-Vale",
+      "team": "away",
+      "score_home": 0,
+      "score_away": 1,
+      "situation": "go_ahead",
+      "goals_by_scorer": 1,
+      "xg": 0.083,
+      "shot_speed_kmh": 73.3
+    },
+    "source_event_ids": [
+      122,
+      123
+    ],
+    "last_event_id": 123,
+    "verified": true,
+    "base_text": "Mateo Sterling-Vale scores for Eastvale United. NBR 0-1 EVU. Eastvale United take the lead.",
+    "mode": "analyst",
+    "writer": "local-template",
+    "attempts": 1,
+    "check_log": [
+      {
+        "attempt": 1,
+        "stage": "text",
+        "text": "Mateo Sterling-Vale (EVU) scores: NBR 0-1 EVU. The shot carried an xG of 0.083 (8% chance) at 73 km/h. Eastvale United edge in front.",
+        "ok": true,
+        "issues": []
+      }
+    ]
+  },
+  {
+    "id": "ov004",
+    "kind": "dominance",
+    "priority": 2,
+    "at": {
+      "elapsed_seconds": 717,
+      "minute": 11,
+      "second": 57,
+      "half": 1
+    },
+    "display_seconds": 5,
+    "headline": "On top",
+    "text": "Northbridge Rovers have 75% of the passes over the last 5 minutes.",
+    "team": "home",
+    "player": null,
+    "facts": {
+      "pass_share_window": 75.0,
+      "window_seconds": 300
+    },
+    "source_event_ids": [
+      157,
+      159,
+      160,
+      167,
+      169,
+      170,
+      171,
+      172,
+      173,
+      174,
+      179,
+      180,
+      186,
+      187,
+      188
+    ],
+    "last_event_id": 189,
+    "verified": true,
+    "base_text": "Northbridge Rovers are dominating the ball: 75% of the passes in the last 5 minutes.",
+    "mode": "analyst",
+    "writer": "local-template",
+    "attempts": 2,
+    "check_log": [
+      {
+        "attempt": 1,
+        "stage": "text",
+        "text": "Eastvale United have 75% of the passes over the last 5 minutes.",
+        "ok": false,
+        "issues": [
+          "Eastvale United is mentioned but is not part of this moment",
+          "the caption does not name Northbridge Rovers"
+        ]
+      },
+      {
+        "attempt": 2,
+        "stage": "text",
+        "text": "Northbridge Rovers have 75% of the passes over the last 5 minutes.",
+        "ok": true,
+        "issues": []
+      }
+    ]
+  },
+  {
+    "id": "ov005",
+    "kind": "state_shift",
+    "priority": 3,
+    "at": {
+      "elapsed_seconds": 922,
+      "minute": 15,
+      "second": 22,
+      "half": 1
+    },
+    "display_seconds": 7,
+    "headline": "Control",
+    "text": "Control: 1.6 turnovers a minute, 91.9% pass completion over the last 5 minutes, chaos index 0.2.",
+    "team": null,
+    "player": null,
+    "facts": {
+      "state": "control",
+      "previous_state": "balanced",
+      "chaos_index": 0.2,
+      "turnovers_per_min": 1.6,
+      "window_pass_accuracy": 91.9,
+      "window_seconds": 300,
+      "possession_pct_window": {
+        "home": 67.6,
+        "away": 32.4
+      }
+    },
+    "source_event_ids": [
+      166,
+      181,
+      185,
+      193,
+      210,
+      212,
+      218,
+      220
+    ],
+    "last_event_id": 235,
+    "verified": true,
+    "base_text": "The game has settled. Just 1.6 turnovers a minute and 91.9% pass completion over the last 5 minutes. Northbridge Rovers have 68% of the passing.",
+    "mode": "analyst",
+    "writer": "local-template",
+    "attempts": 1,
+    "check_log": [
+      {
+        "attempt": 1,
+        "stage": "text",
+        "text": "Control: 1.6 turnovers a minute, 91.9% pass completion over the last 5 minutes, chaos index 0.2.",
+        "ok": true,
+        "issues": []
+      }
+    ]
+  },
+  {
+    "id": "ov006",
+    "kind": "goal",
+    "priority": 5,
+    "at": {
+      "elapsed_seconds": 1020,
+      "minute": 17,
+      "second": 0,
+      "half": 1
+    },
+    "display_seconds": 10,
+    "headline": "GOAL",
+    "text": "Nnamdi Yilmaz (NBR) scores: NBR 1-1 EVU. The shot carried an xG of 0.166 (17% chance) at 83 km/h. The sides are level again.",
+    "team": "home",
+    "player": {
+      "id": "NBR11",
+      "name": "Nnamdi Yilmaz"
+    },
+    "facts": {
+      "scorer_id": "NBR11",
+      "scorer": "Nnamdi Yilmaz",
+      "team": "home",
+      "score_home": 1,
+      "score_away": 1,
+      "situation": "equaliser",
+      "goals_by_scorer": 1,
+      "xg": 0.166,
+      "shot_speed_kmh": 82.7
+    },
+    "source_event_ids": [
+      256,
+      257
+    ],
+    "last_event_id": 257,
+    "verified": true,
+    "base_text": "Nnamdi Yilmaz scores for Northbridge Rovers. NBR 1-1 EVU. Level at 1-1.",
+    "mode": "analyst",
+    "writer": "local-template",
+    "attempts": 1,
+    "check_log": [
+      {
+        "attempt": 1,
+        "stage": "text",
+        "text": "Nnamdi Yilmaz (NBR) scores: NBR 1-1 EVU. The shot carried an xG of 0.166 (17% chance) at 83 km/h. The sides are level again.",
+        "ok": true,
+        "issues": []
+      }
+    ]
+  },
+  {
+    "id": "ov007",
+    "kind": "big_chance",
+    "priority": 3,
+    "at": {
+      "elapsed_seconds": 1068,
+      "minute": 17,
+      "second": 48,
+      "half": 1
+    },
+    "display_seconds": 7,
+    "headline": "Big chance",
+    "text": "Ethan Vasquez (EVU): xG 0.277, a 28% chance, struck at 96 km/h from 5 m. The shot was saved.",
+    "team": "away",
+    "player": {
+      "id": "EVU04",
+      "name": "Ethan Vasquez"
+    },
+    "facts": {
+      "xg": 0.277,
+      "outcome": "saved",
+      "shot_speed_kmh": 96.2,
+      "distance_to_goal_m": 5.4
+    },
+    "source_event_ids": [
+      262
+    ],
+    "last_event_id": 262,
+    "verified": true,
+    "base_text": "Ethan Vasquez had a big chance for Eastvale United: xG 0.277, about a 28% chance of scoring, and the shot was saved.",
+    "mode": "analyst",
+    "writer": "local-template",
+    "attempts": 2,
+    "check_log": [
+      {
+        "attempt": 1,
+        "stage": "text",
+        "text": "Bruno Sterling-Vale (EVU): xG 0.277, a 28% chance, struck at 96 km/h from 5 m. The shot was saved.",
+        "ok": false,
+        "issues": [
+          "Bruno Sterling-Vale is mentioned but is not part of this moment",
+          "the caption does not name Ethan Vasquez"
+        ]
+      },
+      {
+        "attempt": 2,
+        "stage": "text",
+        "text": "Ethan Vasquez (EVU): xG 0.277, a 28% chance, struck at 96 km/h from 5 m. The shot was saved.",
+        "ok": true,
+        "issues": []
+      }
+    ]
+  },
+  {
+    "id": "ov008",
+    "kind": "goal",
+    "priority": 5,
+    "at": {
+      "elapsed_seconds": 1124,
+      "minute": 18,
+      "second": 44,
+      "half": 1
+    },
+    "display_seconds": 10,
+    "headline": "GOAL",
+    "text": "Gabriel Novak (EVU) scores: NBR 1-2 EVU. The shot carried an xG of 0.19 (19% chance) at 88 km/h. Eastvale United edge in front.",
+    "team": "away",
+    "player": {
+      "id": "EVU08",
+      "name": "Gabriel Novak"
+    },
+    "facts": {
+      "scorer_id": "EVU08",
+      "scorer": "Gabriel Novak",
+      "team": "away",
+      "score_home": 1,
+      "score_away": 2,
+      "situation": "go_ahead",
+      "goals_by_scorer": 1,
+      "xg": 0.19,
+      "shot_speed_kmh": 88.3
+    },
+    "source_event_ids": [
+      269,
+      270
+    ],
+    "last_event_id": 270,
+    "verified": true,
+    "base_text": "Gabriel Novak scores for Eastvale United. NBR 1-2 EVU. Eastvale United take the lead.",
+    "mode": "analyst",
+    "writer": "local-template",
+    "attempts": 1,
+    "check_log": [
+      {
+        "attempt": 1,
+        "stage": "text",
+        "text": "Gabriel Novak (EVU) scores: NBR 1-2 EVU. The shot carried an xG of 0.19 (19% chance) at 88 km/h. Eastvale United edge in front.",
+        "ok": true,
+        "issues": []
+      }
+    ]
+  },
+  {
+    "id": "ov009",
+    "kind": "dominance",
+    "priority": 2,
+    "at": {
+      "elapsed_seconds": 1329,
+      "minute": 22,
+      "second": 9,
+      "half": 1
+    },
+    "display_seconds": 5,
+    "headline": "On top",
+    "text": "Eastvale United have 70% of the passes over the last 5 minutes.",
+    "team": "away",
+    "player": null,
+    "facts": {
+      "pass_share_window": 70.0,
+      "window_seconds": 300
+    },
+    "source_event_ids": [
+      298,
+      303,
+      304,
+      305,
+      306,
+      307,
+      308,
+      310,
+      311,
+      312,
+      313,
+      314,
+      315,
+      316,
+      321
+    ],
+    "last_event_id": 324,
+    "verified": true,
+    "base_text": "Eastvale United are dominating the ball: 70% of the passes in the last 5 minutes.",
+    "mode": "analyst",
+    "writer": "local-template",
+    "attempts": 2,
+    "check_log": [
+      {
+        "attempt": 1,
+        "stage": "text",
+        "text": "Northbridge Rovers have 70% of the passes over the last 5 minutes.",
+        "ok": false,
+        "issues": [
+          "Northbridge Rovers is mentioned but is not part of this moment",
+          "the caption does not name Eastvale United"
+        ]
+      },
+      {
+        "attempt": 2,
+        "stage": "text",
+        "text": "Eastvale United have 70% of the passes over the last 5 minutes.",
+        "ok": true,
+        "issues": []
+      }
+    ]
+  },
+  {
+    "id": "ov010",
+    "kind": "goal",
+    "priority": 5,
+    "at": {
+      "elapsed_seconds": 1425,
+      "minute": 23,
+      "second": 45,
+      "half": 1
+    },
+    "display_seconds": 10,
+    "headline": "GOAL",
+    "text": "Sami Rossi (EVU) scores: NBR 1-3 EVU. The shot carried an xG of 0.268 (27% chance) at 96 km/h. Eastvale United now lead by 2.",
+    "team": "away",
+    "player": {
+      "id": "EVU11",
+      "name": "Sami Rossi"
+    },
+    "facts": {
+      "scorer_id": "EVU11",
+      "scorer": "Sami Rossi",
+      "team": "away",
+      "score_home": 1,
+      "score_away": 3,
+      "situation": "extends_lead",
+      "goals_by_scorer": 1,
+      "xg": 0.268,
+      "shot_speed_kmh": 96.1
+    },
+    "source_event_ids": [
+      356,
+      357
+    ],
+    "last_event_id": 357,
+    "verified": true,
+    "base_text": "Sami Rossi scores for Eastvale United. NBR 1-3 EVU. Eastvale United extend their lead.",
+    "mode": "analyst",
+    "writer": "local-template",
+    "attempts": 1,
+    "check_log": [
+      {
+        "attempt": 1,
+        "stage": "text",
+        "text": "Sami Rossi (EVU) scores: NBR 1-3 EVU. The shot carried an xG of 0.268 (27% chance) at 96 km/h. Eastvale United now lead by 2.",
+        "ok": true,
+        "issues": []
+      }
+    ]
+  },
+  {
+    "id": "ov011",
+    "kind": "difficult_pass",
+    "priority": 2,
+    "at": {
+      "elapsed_seconds": 1491,
+      "minute": 24,
+      "second": 51,
+      "half": 1
+    },
+    "display_seconds": 5,
+    "headline": "Tough pass",
+    "text": "Luca Abara (EVU) completes a 33 m pass to Ugo Sterling-Vale, rated 10/10 for difficulty.",
+    "team": "away",
+    "player": {
+      "id": "EVU05",
+      "name": "Luca Abara"
+    },
+    "facts": {
+      "pass_distance_m": 32.8,
+      "pass_difficulty": 10,
+      "ball_speed_ms": 23.4,
+      "receiver": "Ugo Sterling-Vale"
+    },
+    "source_event_ids": [
+      371
+    ],
+    "last_event_id": 371,
+    "verified": true,
+    "base_text": "Luca Abara completes a 33 m pass to Ugo Sterling-Vale, rated 10/10 for difficulty.",
+    "mode": "analyst",
+    "writer": "local-template",
+    "attempts": 2,
+    "check_log": [
+      {
+        "attempt": 1,
+        "stage": "text",
+        "text": "Luca Abara (EVU) completes a 33 m pass to Ugo Sterling-Vale, rated 10/11 for difficulty.",
+        "ok": false,
+        "issues": [
+          "the number 11 is not supported by the facts"
+        ]
+      },
+      {
+        "attempt": 2,
+        "stage": "text",
+        "text": "Luca Abara (EVU) completes a 33 m pass to Ugo Sterling-Vale, rated 10/10 for difficulty.",
+        "ok": true,
+        "issues": []
+      }
+    ]
+  },
+  {
+    "id": "ov012",
+    "kind": "state_shift",
+    "priority": 3,
+    "at": {
+      "elapsed_seconds": 1713,
+      "minute": 28,
+      "second": 33,
+      "half": 1
+    },
+    "display_seconds": 7,
+    "headline": "Chaos",
+    "text": "Chaos index 0.66: 2.4 turnovers a minute and 80.6% pass completion over the last 5 minutes.",
+    "team": null,
+    "player": null,
+    "facts": {
+      "state": "chaos",
+      "previous_state": "balanced",
+      "chaos_index": 0.66,
+      "turnovers_per_min": 2.4,
+      "window_pass_accuracy": 80.6,
+      "window_seconds": 300,
+      "possession_pct_window": {
+        "home": 47.2,
+        "away": 52.8
+      }
+    },
+    "source_event_ids": [
+      360,
+      362,
+      364,
+      374,
+      382,
+      385,
+      387,
+      403,
+      406,
+      408,
+      420,
+      424
+    ],
+    "last_event_id": 432,
+    "verified": true,
+    "base_text": "The match has turned frantic. The ball changed hands 2.4 times a minute and only 80.6% of passes found a team-mate over the last 5 minutes.",
+    "mode": "analyst",
+    "writer": "local-template",
+    "attempts": 1,
+    "check_log": [
+      {
+        "attempt": 1,
+        "stage": "text",
+        "text": "Chaos index 0.66: 2.4 turnovers a minute and 80.6% pass completion over the last 5 minutes.",
+        "ok": true,
+        "issues": []
+      }
+    ]
+  },
+  {
+    "id": "ov013",
+    "kind": "big_chance",
+    "priority": 3,
+    "at": {
+      "elapsed_seconds": 1802,
+      "minute": 30,
+      "second": 2,
+      "half": 1
+    },
+    "display_seconds": 7,
+    "headline": "Big chance",
+    "text": "Xavi Vasquez (NBR): xG 0.247, a 25% chance, struck at 82 km/h from 2 m. The shot was saved.",
+    "team": "home",
+    "player": {
+      "id": "NBR10",
+      "name": "Xavi Vasquez"
+    },
+    "facts": {
+      "xg": 0.247,
+      "outcome": "saved",
+      "shot_speed_kmh": 82.2,
+      "distance_to_goal_m": 1.7
+    },
+    "source_event_ids": [
+      474
+    ],
+    "last_event_id": 474,
+    "verified": true,
+    "base_text": "Xavi Vasquez had a big chance for Northbridge Rovers: xG 0.247, about a 25% chance of scoring, and the shot was saved.",
+    "mode": "analyst",
+    "writer": "local-template",
+    "attempts": 1,
+    "check_log": [
+      {
+        "attempt": 1,
+        "stage": "text",
+        "text": "Xavi Vasquez (NBR): xG 0.247, a 25% chance, struck at 82 km/h from 2 m. The shot was saved.",
+        "ok": true,
+        "issues": []
+      }
+    ]
+  },
+  {
+    "id": "ov014",
+    "kind": "pressing",
+    "priority": 3,
+    "at": {
+      "elapsed_seconds": 1806,
+      "minute": 30,
+      "second": 6,
+      "half": 1
+    },
+    "display_seconds": 7,
+    "headline": "Pressing",
+    "text": "Eastvale United are pressing high: 15 pressure actions in 5 minutes.",
+    "team": "away",
+    "player": null,
+    "facts": {
+      "pressures_in_window": 15,
+      "window_seconds": 300
+    },
+    "source_event_ids": [
+      397,
+      399,
+      416,
+      418,
+      425,
+      427,
+      429,
+      435,
+      437,
+      439,
+      445,
+      461,
+      466,
+      471,
+      473
+    ],
+    "last_event_id": 475,
+    "verified": true,
+    "base_text": "Eastvale United are pressing hard: 15 pressure actions in the last 5 minutes.",
+    "mode": "analyst",
+    "writer": "local-template",
+    "attempts": 2,
+    "check_log": [
+      {
+        "attempt": 1,
+        "stage": "text",
+        "text": "Eastvale United are pressing high: 15 pressure actions in 5 minutes. That is the 137th shot on target this season.",
+        "ok": false,
+        "issues": [
+          "the number 137 is not supported by the facts"
+        ]
+      },
+      {
+        "attempt": 2,
+        "stage": "text",
+        "text": "Eastvale United are pressing high: 15 pressure actions in 5 minutes.",
+        "ok": true,
+        "issues": []
+      }
+    ]
+  },
+  {
+    "id": "ov015",
+    "kind": "big_chance",
+    "priority": 3,
+    "at": {
+      "elapsed_seconds": 2390,
+      "minute": 39,
+      "second": 50,
+      "half": 1
+    },
+    "display_seconds": 7,
+    "headline": "Big chance",
+    "text": "Xavi Vasquez (NBR): xG 0.329, a 33% chance, struck at 83 km/h from 2 m. The shot was saved.",
+    "team": "home",
+    "player": {
+      "id": "NBR10",
+      "name": "Xavi Vasquez"
+    },
+    "facts": {
+      "xg": 0.329,
+      "outcome": "saved",
+      "shot_speed_kmh": 82.7,
+      "distance_to_goal_m": 1.8
+    },
+    "source_event_ids": [
+      635
+    ],
+    "last_event_id": 635,
+    "verified": true,
+    "base_text": "Xavi Vasquez had a big chance for Northbridge Rovers: xG 0.329, about a 33% chance of scoring, and the shot was saved.",
+    "mode": "analyst",
+    "writer": "local-template",
+    "attempts": 1,
+    "check_log": [
+      {
+        "attempt": 1,
+        "stage": "text",
+        "text": "Xavi Vasquez (NBR): xG 0.329, a 33% chance, struck at 83 km/h from 2 m. The shot was saved.",
+        "ok": true,
+        "issues": []
+      }
+    ]
+  },
+  {
+    "id": "ov016",
+    "kind": "state_shift",
+    "priority": 3,
+    "at": {
+      "elapsed_seconds": 2479,
+      "minute": 41,
+      "second": 19,
+      "half": 1
+    },
+    "display_seconds": 7,
+    "headline": "Control",
+    "text": "Control: 1.2 turnovers a minute, 91.7% pass completion over the last 5 minutes, chaos index 0.11.",
+    "team": null,
+    "player": null,
+    "facts": {
+      "state": "control",
+      "previous_state": "balanced",
+      "chaos_index": 0.11,
+      "turnovers_per_min": 1.2,
+      "window_pass_accuracy": 91.7,
+      "window_seconds": 300,
+      "possession_pct_window": {
+        "home": 58.3,
+        "away": 41.7
+      }
+    },
+    "source_event_ids": [
+      592,
+      601,
+      605,
+      621,
+      623,
+      643
+    ],
+    "last_event_id": 657,
+    "verified": true,
+    "base_text": "The game has settled. Just 1.2 turnovers a minute and 91.7% pass completion over the last 5 minutes. Northbridge Rovers have 58% of the passing.",
+    "mode": "analyst",
+    "writer": "local-template",
+    "attempts": 1,
+    "check_log": [
+      {
+        "attempt": 1,
+        "stage": "text",
+        "text": "Control: 1.2 turnovers a minute, 91.7% pass completion over the last 5 minutes, chaos index 0.11.",
+        "ok": true,
+        "issues": []
+      }
+    ]
+  },
+  {
+    "id": "ov017",
+    "kind": "dominance",
+    "priority": 2,
+    "at": {
+      "elapsed_seconds": 2534,
+      "minute": 42,
+      "second": 14,
+      "half": 1
+    },
+    "display_seconds": 5,
+    "headline": "On top",
+    "text": "Northbridge Rovers have 77% of the passes over the last 5 minutes.",
+    "team": "home",
+    "player": null,
+    "facts": {
+      "pass_share_window": 76.7,
+      "window_seconds": 300
+    },
+    "source_event_ids": [
+      646,
+      647,
+      648,
+      649,
+      651,
+      652,
+      653,
+      654,
+      655,
+      656,
+      657,
+      658,
+      659,
+      660,
+      661
+    ],
+    "last_event_id": 665,
+    "verified": true,
+    "base_text": "Northbridge Rovers are dominating the ball: 77% of the passes in the last 5 minutes.",
+    "mode": "analyst",
+    "writer": "local-template",
+    "attempts": 1,
+    "check_log": [
+      {
+        "attempt": 1,
+        "stage": "text",
+        "text": "Northbridge Rovers have 77% of the passes over the last 5 minutes.",
+        "ok": true,
+        "issues": []
+      }
+    ]
+  },
+  {
+    "id": "ov018",
+    "kind": "difficult_pass",
+    "priority": 2,
+    "at": {
+      "elapsed_seconds": 2741,
+      "minute": 45,
+      "second": 41,
+      "half": 1
+    },
+    "display_seconds": 5,
+    "headline": "Tough pass",
+    "text": "Oscar Takahashi (NBR) completes a 32 m pass to Xavi Vasquez, rated 9.7/10 for difficulty.",
+    "team": "home",
+    "player": {
+      "id": "NBR05",
+      "name": "Oscar Takahashi"
+    },
+    "facts": {
+      "pass_distance_m": 31.9,
+      "pass_difficulty": 9.7,
+      "ball_speed_ms": 22.7,
+      "receiver": "Xavi Vasquez"
+    },
+    "source_event_ids": [
+      718
+    ],
+    "last_event_id": 718,
+    "verified": true,
+    "base_text": "Oscar Takahashi completes a 32 m pass to Xavi Vasquez, rated 9.7/10 for difficulty.",
+    "mode": "analyst",
+    "writer": "local-template",
+    "attempts": 1,
+    "check_log": [
+      {
+        "attempt": 1,
+        "stage": "text",
+        "text": "Oscar Takahashi (NBR) completes a 32 m pass to Xavi Vasquez, rated 9.7/10 for difficulty.",
+        "ok": true,
+        "issues": []
+      }
+    ]
+  },
+  {
+    "id": "ov019",
+    "kind": "goal",
+    "priority": 5,
+    "at": {
+      "elapsed_seconds": 2766,
+      "minute": 46,
+      "second": 6,
+      "half": 1
+    },
+    "display_seconds": 10,
+    "headline": "GOAL",
+    "text": "Xavi Vasquez (NBR) scores: NBR 2-3 EVU. The shot carried an xG of 0.098 (10% chance) at 76 km/h. Northbridge Rovers cut the deficit to 1.",
+    "team": "home",
+    "player": {
+      "id": "NBR10",
+      "name": "Xavi Vasquez"
+    },
+    "facts": {
+      "scorer_id": "NBR10",
+      "scorer": "Xavi Vasquez",
+      "team": "home",
+      "score_home": 2,
+      "score_away": 3,
+      "situation": "pulls_one_back",
+      "goals_by_scorer": 1,
+      "xg": 0.098,
+      "shot_speed_kmh": 75.9
+    },
+    "source_event_ids": [
+      725,
+      726
+    ],
+    "last_event_id": 726,
+    "verified": true,
+    "base_text": "Xavi Vasquez scores for Northbridge Rovers. NBR 2-3 EVU. Northbridge Rovers pull one back.",
+    "mode": "analyst",
+    "writer": "local-template",
+    "attempts": 2,
+    "check_log": [
+      {
+        "attempt": 1,
+        "stage": "text",
+        "text": "Ugo Sterling-Vale (NBR) scores: NBR 2-3 EVU. The shot carried an xG of 0.098 (10% chance) at 76 km/h. Northbridge Rovers cut the deficit to 1.",
+        "ok": false,
+        "issues": [
+          "Ugo Sterling-Vale is mentioned but is not part of this moment",
+          "the caption does not name Xavi Vasquez"
+        ]
+      },
+      {
+        "attempt": 2,
+        "stage": "text",
+        "text": "Xavi Vasquez (NBR) scores: NBR 2-3 EVU. The shot carried an xG of 0.098 (10% chance) at 76 km/h. Northbridge Rovers cut the deficit to 1.",
+        "ok": true,
+        "issues": []
+      }
+    ]
+  },
+  {
+    "id": "ov020",
+    "kind": "half_time",
+    "priority": 4,
+    "at": {
+      "elapsed_seconds": 2809,
+      "minute": 46,
+      "second": 49,
+      "half": 1
+    },
+    "display_seconds": 8,
+    "headline": "Half time",
+    "text": "Half time: NBR 2-3 EVU. Possession 54-46, shots 13-10, xG 1.83-1.17. Eastvale United lead despite lower xG (1.17 against 1.83).",
+    "team": null,
+    "player": null,
+    "facts": {
+      "score_home": 2,
+      "score_away": 3,
+      "possession_pct": {
+        "home": 54.5,
+        "away": 45.5
+      },
+      "shots": {
+        "home": 13,
+        "away": 10
+      },
+      "xg": {
+        "home": 1.83,
+        "away": 1.17
+      }
+    },
+    "source_event_ids": [
+      728
+    ],
+    "last_event_id": 728,
+    "verified": true,
+    "base_text": "Half time: NBR 2-3 EVU. Possession 54-46, shots 13-10, xG 1.83-1.17. Eastvale United lead despite lower xG (1.17 against 1.83).",
+    "mode": "analyst",
+    "writer": "local-template",
+    "attempts": 1,
+    "check_log": [
+      {
+        "attempt": 1,
+        "stage": "text",
+        "text": "Half time: NBR 2-3 EVU. Possession 54-46, shots 13-10, xG 1.83-1.17. Eastvale United lead despite lower xG (1.17 against 1.83).",
+        "ok": true,
+        "issues": []
+      }
+    ]
+  },
+  {
+    "id": "ov021",
+    "kind": "state_shift",
+    "priority": 3,
+    "at": {
+      "elapsed_seconds": 3094,
+      "minute": 49,
+      "second": 45,
+      "half": 2
+    },
+    "display_seconds": 7,
+    "headline": "Chaos",
+    "text": "Chaos index 0.66: 2.6 turnovers a minute and 82.7% pass completion over the last 5 minutes.",
+    "team": null,
+    "player": null,
+    "facts": {
+      "state": "chaos",
+      "previous_state": "balanced",
+      "chaos_index": 0.66,
+      "turnovers_per_min": 2.6,
+      "window_pass_accuracy": 82.7,
+      "window_seconds": 300,
+      "possession_pct_window": {
+        "home": 59.6,
+        "away": 40.4
+      }
+    },
+    "source_event_ids": [
+      734,
+      741,
+      748,
+      755,
+      759,
+      769,
+      776,
+      779,
+      801,
+      803,
+      805,
+      811,
+      816
+    ],
+    "last_event_id": 816,
+    "verified": true,
+    "base_text": "The match has turned frantic. The ball changed hands 2.6 times a minute and only 82.7% of passes found a team-mate over the last 5 minutes.",
+    "mode": "analyst",
+    "writer": "local-template",
+    "attempts": 1,
+    "check_log": [
+      {
+        "attempt": 1,
+        "stage": "text",
+        "text": "Chaos index 0.66: 2.6 turnovers a minute and 82.7% pass completion over the last 5 minutes.",
+        "ok": true,
+        "issues": []
+      }
+    ]
+  },
+  {
+    "id": "ov022",
+    "kind": "yellow_card",
+    "priority": 2,
+    "at": {
+      "elapsed_seconds": 3497,
+      "minute": 56,
+      "second": 28,
+      "half": 2
+    },
+    "display_seconds": 5,
+    "headline": "Yellow card",
+    "text": "Rafael Sterling-Vale (EVU) is booked. Eastvale United have 1 card in the match.",
+    "team": "away",
+    "player": {
+      "id": "EVU09",
+      "name": "Rafael Sterling-Vale"
+    },
+    "facts": {
+      "team_cards": 1
+    },
+    "source_event_ids": [
+      948
+    ],
+    "last_event_id": 948,
+    "verified": true,
+    "base_text": "Rafael Sterling-Vale (EVU) is shown a yellow card. Eastvale United now have 1 card in the match.",
+    "mode": "analyst",
+    "writer": "local-template",
+    "attempts": 2,
+    "check_log": [
+      {
+        "attempt": 1,
+        "stage": "text",
+        "text": "Rafael Sterling-Vale (EVU) is booked. Eastvale United have 1 card in the match. That is the 137th shot on target this season.",
+        "ok": false,
+        "issues": [
+          "the number 137 is not supported by the facts"
+        ]
+      },
+      {
+        "attempt": 2,
+        "stage": "text",
+        "text": "Rafael Sterling-Vale (EVU) is booked. Eastvale United have 1 card in the match.",
+        "ok": true,
+        "issues": []
+      }
+    ]
+  },
+  {
+    "id": "ov023",
+    "kind": "dominance",
+    "priority": 2,
+    "at": {
+      "elapsed_seconds": 3625,
+      "minute": 58,
+      "second": 36,
+      "half": 2
+    },
+    "display_seconds": 5,
+    "headline": "On top",
+    "text": "Northbridge Rovers have 72% of the passes over the last 5 minutes.",
+    "team": "home",
+    "player": null,
+    "facts": {
+      "pass_share_window": 72.2,
+      "window_seconds": 300
+    },
+    "source_event_ids": [
+      931,
+      932,
+      933,
+      934,
+      935,
+      936,
+      937,
+      938,
+      945,
+      960,
+      962,
+      963,
+      964,
+      966,
+      968
+    ],
+    "last_event_id": 971,
+    "verified": true,
+    "base_text": "Northbridge Rovers are dominating the ball: 72% of the passes in the last 5 minutes.",
+    "mode": "analyst",
+    "writer": "local-template",
+    "attempts": 1,
+    "check_log": [
+      {
+        "attempt": 1,
+        "stage": "text",
+        "text": "Northbridge Rovers have 72% of the passes over the last 5 minutes.",
+        "ok": true,
+        "issues": []
+      }
+    ]
+  },
+  {
+    "id": "ov024",
+    "kind": "pressing",
+    "priority": 3,
+    "at": {
+      "elapsed_seconds": 3625,
+      "minute": 58,
+      "second": 36,
+      "half": 2
+    },
+    "display_seconds": 7,
+    "headline": "Pressing",
+    "text": "Eastvale United are pressing high: 15 pressure actions in 5 minutes.",
+    "team": "away",
+    "player": null,
+    "facts": {
+      "pressures_in_window": 15,
+      "window_seconds": 300
+    },
+    "source_event_ids": [
+      887,
+      896,
+      911,
+      915,
+      917,
+      926,
+      928,
+      946,
+      954,
+      956,
+      959,
+      961,
+      965,
+      967,
+      969
+    ],
+    "last_event_id": 971,
+    "verified": true,
+    "base_text": "Eastvale United are pressing hard: 15 pressure actions in the last 5 minutes.",
+    "mode": "analyst",
+    "writer": "local-template",
+    "attempts": 1,
+    "check_log": [
+      {
+        "attempt": 1,
+        "stage": "text",
+        "text": "Eastvale United are pressing high: 15 pressure actions in 5 minutes.",
+        "ok": true,
+        "issues": []
+      }
+    ]
+  },
+  {
+    "id": "ov025",
+    "kind": "big_chance",
+    "priority": 3,
+    "at": {
+      "elapsed_seconds": 3689,
+      "minute": 59,
+      "second": 40,
+      "half": 2
+    },
+    "display_seconds": 7,
+    "headline": "Big chance",
+    "text": "Declan Lindqvist (NBR): xG 0.256, a 26% chance, struck at 89 km/h from 7 m. The shot was blocked.",
+    "team": "home",
+    "player": {
+      "id": "NBR08",
+      "name": "Declan Lindqvist"
+    },
+    "facts": {
+      "xg": 0.256,
+      "outcome": "blocked",
+      "shot_speed_kmh": 89.2,
+      "distance_to_goal_m": 6.7
+    },
+    "source_event_ids": [
+      976
+    ],
+    "last_event_id": 976,
+    "verified": true,
+    "base_text": "Declan Lindqvist had a big chance for Northbridge Rovers: xG 0.256, about a 26% chance of scoring, and the shot was blocked.",
+    "mode": "analyst",
+    "writer": "local-template",
+    "attempts": 1,
+    "check_log": [
+      {
+        "attempt": 1,
+        "stage": "text",
+        "text": "Declan Lindqvist (NBR): xG 0.256, a 26% chance, struck at 89 km/h from 7 m. The shot was blocked.",
+        "ok": true,
+        "issues": []
+      }
+    ]
+  },
+  {
+    "id": "ov026",
+    "kind": "difficult_pass",
+    "priority": 2,
+    "at": {
+      "elapsed_seconds": 3854,
+      "minute": 62,
+      "second": 25,
+      "half": 2
+    },
+    "display_seconds": 5,
+    "headline": "Tough pass",
+    "text": "Ethan Vasquez (EVU) completes a 36 m pass to Viktor Dunmore, rated 10/10 for difficulty.",
+    "team": "away",
+    "player": {
+      "id": "EVU04",
+      "name": "Ethan Vasquez"
+    },
+    "facts": {
+      "pass_distance_m": 36.0,
+      "pass_difficulty": 10,
+      "ball_speed_ms": 21.1,
+      "receiver": "Viktor Dunmore"
+    },
+    "source_event_ids": [
+      1013
+    ],
+    "last_event_id": 1013,
+    "verified": true,
+    "base_text": "Ethan Vasquez completes a 36 m pass to Viktor Dunmore, rated 10/10 for difficulty.",
+    "mode": "analyst",
+    "writer": "local-template",
+    "attempts": 2,
+    "check_log": [
+      {
+        "attempt": 1,
+        "stage": "text",
+        "text": "Bruno Sterling-Vale (EVU) completes a 36 m pass to Viktor Dunmore, rated 10/10 for difficulty.",
+        "ok": false,
+        "issues": [
+          "Bruno Sterling-Vale is mentioned but is not part of this moment",
+          "the caption does not name Ethan Vasquez"
+        ]
+      },
+      {
+        "attempt": 2,
+        "stage": "text",
+        "text": "Ethan Vasquez (EVU) completes a 36 m pass to Viktor Dunmore, rated 10/10 for difficulty.",
+        "ok": true,
+        "issues": []
+      }
+    ]
+  },
+  {
+    "id": "ov027",
+    "kind": "goal",
+    "priority": 5,
+    "at": {
+      "elapsed_seconds": 4113,
+      "minute": 66,
+      "second": 44,
+      "half": 2
+    },
+    "display_seconds": 10,
+    "headline": "GOAL",
+    "text": "Declan Lindqvist (NBR) scores: NBR 3-3 EVU. The shot carried an xG of 0.212 (21% chance) at 96 km/h. The sides are level again.",
+    "team": "home",
+    "player": {
+      "id": "NBR08",
+      "name": "Declan Lindqvist"
+    },
+    "facts": {
+      "scorer_id": "NBR08",
+      "scorer": "Declan Lindqvist",
+      "team": "home",
+      "score_home": 3,
+      "score_away": 3,
+      "situation": "equaliser",
+      "goals_by_scorer": 1,
+      "xg": 0.212,
+      "shot_speed_kmh": 95.5
+    },
+    "source_event_ids": [
+      1071,
+      1072
+    ],
+    "last_event_id": 1072,
+    "verified": true,
+    "base_text": "Declan Lindqvist scores for Northbridge Rovers. NBR 3-3 EVU. Level at 3-3.",
+    "mode": "analyst",
+    "writer": "local-template",
+    "attempts": 1,
+    "check_log": [
+      {
+        "attempt": 1,
+        "stage": "text",
+        "text": "Declan Lindqvist (NBR) scores: NBR 3-3 EVU. The shot carried an xG of 0.212 (21% chance) at 96 km/h. The sides are level again.",
+        "ok": true,
+        "issues": []
+      }
+    ]
+  },
+  {
+    "id": "ov028",
+    "kind": "state_shift",
+    "priority": 3,
+    "at": {
+      "elapsed_seconds": 4438,
+      "minute": 72,
+      "second": 9,
+      "half": 2
+    },
+    "display_seconds": 7,
+    "headline": "Control",
+    "text": "Control: 1.4 turnovers a minute, 88.0% pass completion over the last 5 minutes, chaos index 0.24.",
+    "team": null,
+    "player": null,
+    "facts": {
+      "state": "control",
+      "previous_state": "balanced",
+      "chaos_index": 0.24,
+      "turnovers_per_min": 1.4,
+      "window_pass_accuracy": 88.0,
+      "window_seconds": 300,
+      "possession_pct_window": {
+        "home": 56.0,
+        "away": 44.0
+      }
+    },
+    "source_event_ids": [
+      1075,
+      1081,
+      1089,
+      1102,
+      1113,
+      1119,
+      1132
+    ],
+    "last_event_id": 1144,
+    "verified": true,
+    "base_text": "The game has settled. Just 1.4 turnovers a minute and 88.0% pass completion over the last 5 minutes. Northbridge Rovers have 56% of the passing.",
+    "mode": "analyst",
+    "writer": "local-template",
+    "attempts": 2,
+    "check_log": [
+      {
+        "attempt": 1,
+        "stage": "text",
+        "text": "Control: 1.4 turnovers a minute, 88.0% pass completion over the last 5 minutes, chaos index 0.24. That is the 137th shot on target this season.",
+        "ok": false,
+        "issues": [
+          "the number 137 is not supported by the facts"
+        ]
+      },
+      {
+        "attempt": 2,
+        "stage": "text",
+        "text": "Control: 1.4 turnovers a minute, 88.0% pass completion over the last 5 minutes, chaos index 0.24.",
+        "ok": true,
+        "issues": []
+      }
+    ]
+  },
+  {
+    "id": "ov029",
+    "kind": "goal",
+    "priority": 5,
+    "at": {
+      "elapsed_seconds": 4563,
+      "minute": 74,
+      "second": 14,
+      "half": 2
+    },
+    "display_seconds": 10,
+    "headline": "GOAL",
+    "text": "Yusuf Quigley (NBR) scores: NBR 4-3 EVU. The shot carried an xG of 0.262 (26% chance) at 90 km/h. Northbridge Rovers edge in front.",
+    "team": "home",
+    "player": {
+      "id": "NBR03",
+      "name": "Yusuf Quigley"
+    },
+    "facts": {
+      "scorer_id": "NBR03",
+      "scorer": "Yusuf Quigley",
+      "team": "home",
+      "score_home": 4,
+      "score_away": 3,
+      "situation": "go_ahead",
+      "goals_by_scorer": 1,
+      "xg": 0.262,
+      "shot_speed_kmh": 90.0
+    },
+    "source_event_ids": [
+      1172,
+      1173
+    ],
+    "last_event_id": 1173,
+    "verified": true,
+    "base_text": "Yusuf Quigley scores for Northbridge Rovers. NBR 4-3 EVU. Northbridge Rovers take the lead.",
+    "mode": "analyst",
+    "writer": "local-template",
+    "attempts": 1,
+    "check_log": [
+      {
+        "attempt": 1,
+        "stage": "text",
+        "text": "Yusuf Quigley (NBR) scores: NBR 4-3 EVU. The shot carried an xG of 0.262 (26% chance) at 90 km/h. Northbridge Rovers edge in front.",
+        "ok": true,
+        "issues": []
+      }
+    ]
+  },
+  {
+    "id": "ov030",
+    "kind": "difficult_pass",
+    "priority": 2,
+    "at": {
+      "elapsed_seconds": 4987,
+      "minute": 81,
+      "second": 18,
+      "half": 2
+    },
+    "display_seconds": 5,
+    "headline": "Tough pass",
+    "text": "Bruno Dunmore (NBR) completes a 38 m pass to Bruno Sterling-Vale, rated 10/10 for difficulty.",
+    "team": "home",
+    "player": {
+      "id": "NBR06",
+      "name": "Bruno Dunmore"
+    },
+    "facts": {
+      "pass_distance_m": 38.3,
+      "pass_difficulty": 10,
+      "ball_speed_ms": 20.1,
+      "receiver": "Bruno Sterling-Vale"
+    },
+    "source_event_ids": [
+      1276
+    ],
+    "last_event_id": 1276,
+    "verified": true,
+    "base_text": "Bruno Dunmore completes a 38 m pass to Bruno Sterling-Vale, rated 10/10 for difficulty.",
+    "mode": "analyst",
+    "writer": "local-template",
+    "attempts": 1,
+    "check_log": [
+      {
+        "attempt": 1,
+        "stage": "text",
+        "text": "Bruno Dunmore (NBR) completes a 38 m pass to Bruno Sterling-Vale, rated 10/10 for difficulty.",
+        "ok": true,
+        "issues": []
+      }
+    ]
+  },
+  {
+    "id": "ov031",
+    "kind": "state_shift",
+    "priority": 3,
+    "at": {
+      "elapsed_seconds": 5236,
+      "minute": 85,
+      "second": 27,
+      "half": 2
+    },
+    "display_seconds": 7,
+    "headline": "Chaos",
+    "text": "Chaos index 0.59: 2.2 turnovers a minute and 81.2% pass completion over the last 5 minutes.",
+    "team": null,
+    "player": null,
+    "facts": {
+      "state": "chaos",
+      "previous_state": "balanced",
+      "chaos_index": 0.59,
+      "turnovers_per_min": 2.2,
+      "window_pass_accuracy": 81.2,
+      "window_seconds": 300,
+      "possession_pct_window": {
+        "home": 72.9,
+        "away": 27.1
+      }
+    },
+    "source_event_ids": [
+      1270,
+      1282,
+      1285,
+      1293,
+      1296,
+      1300,
+      1302,
+      1308,
+      1310,
+      1330,
+      1337
+    ],
+    "last_event_id": 1337,
+    "verified": true,
+    "base_text": "The match has turned frantic. The ball changed hands 2.2 times a minute and only 81.2% of passes found a team-mate over the last 5 minutes.",
+    "mode": "analyst",
+    "writer": "local-template",
+    "attempts": 1,
+    "check_log": [
+      {
+        "attempt": 1,
+        "stage": "text",
+        "text": "Chaos index 0.59: 2.2 turnovers a minute and 81.2% pass completion over the last 5 minutes.",
+        "ok": true,
+        "issues": []
+      }
+    ]
+  },
+  {
+    "id": "ov032",
+    "kind": "dominance",
+    "priority": 2,
+    "at": {
+      "elapsed_seconds": 5333,
+      "minute": 87,
+      "second": 4,
+      "half": 2
+    },
+    "display_seconds": 5,
+    "headline": "On top",
+    "text": "Northbridge Rovers have 74% of the passes over the last 5 minutes.",
+    "team": "home",
+    "player": null,
+    "facts": {
+      "pass_share_window": 74.0,
+      "window_seconds": 300
+    },
+    "source_event_ids": [
+      1333,
+      1335,
+      1336,
+      1348,
+      1350,
+      1353,
+      1354,
+      1355,
+      1356,
+      1359,
+      1360,
+      1361,
+      1362,
+      1364,
+      1365
+    ],
+    "last_event_id": 1365,
+    "verified": true,
+    "base_text": "Northbridge Rovers are dominating the ball: 74% of the passes in the last 5 minutes.",
+    "mode": "analyst",
+    "writer": "local-template",
+    "attempts": 1,
+    "check_log": [
+      {
+        "attempt": 1,
+        "stage": "text",
+        "text": "Northbridge Rovers have 74% of the passes over the last 5 minutes.",
+        "ok": true,
+        "issues": []
+      }
+    ]
+  },
+  {
+    "id": "ov033",
+    "kind": "big_chance",
+    "priority": 3,
+    "at": {
+      "elapsed_seconds": 5686,
+      "minute": 92,
+      "second": 57,
+      "half": 2
+    },
+    "display_seconds": 7,
+    "headline": "Big chance",
+    "text": "Xavi Vasquez (NBR): xG 0.333, a 33% chance, struck at 98 km/h from 2 m. The shot was saved.",
+    "team": "home",
+    "player": {
+      "id": "NBR10",
+      "name": "Xavi Vasquez"
+    },
+    "facts": {
+      "xg": 0.333,
+      "outcome": "saved",
+      "shot_speed_kmh": 97.8,
+      "distance_to_goal_m": 1.9
+    },
+    "source_event_ids": [
+      1450
+    ],
+    "last_event_id": 1450,
+    "verified": true,
+    "base_text": "Xavi Vasquez had a big chance for Northbridge Rovers: xG 0.333, about a 33% chance of scoring, and the shot was saved.",
+    "mode": "analyst",
+    "writer": "local-template",
+    "attempts": 1,
+    "check_log": [
+      {
+        "attempt": 1,
+        "stage": "text",
+        "text": "Xavi Vasquez (NBR): xG 0.333, a 33% chance, struck at 98 km/h from 2 m. The shot was saved.",
+        "ok": true,
+        "issues": []
+      }
+    ]
+  },
+  {
+    "id": "ov034",
+    "kind": "full_time",
+    "priority": 4,
+    "at": {
+      "elapsed_seconds": 5726,
+      "minute": 93,
+      "second": 37,
+      "half": 2
+    },
+    "display_seconds": 8,
+    "headline": "Full time",
+    "text": "Full time: NBR 4-3 EVU. Possession 56-44, shots 32-11, xG 4.16-1.27.",
+    "team": null,
+    "player": null,
+    "facts": {
+      "score_home": 4,
+      "score_away": 3,
+      "possession_pct": {
+        "home": 56.0,
+        "away": 44.0
+      },
+      "shots": {
+        "home": 32,
+        "away": 11
+      },
+      "xg": {
+        "home": 4.16,
+        "away": 1.27
+      }
+    },
+    "source_event_ids": [
+      1458
+    ],
+    "last_event_id": 1458,
+    "verified": true,
+    "base_text": "Full time: NBR 4-3 EVU. Possession 56-44, shots 32-11, xG 4.16-1.27.",
+    "mode": "analyst",
+    "writer": "local-template",
+    "attempts": 1,
+    "check_log": [
+      {
+        "attempt": 1,
+        "stage": "text",
+        "text": "Full time: NBR 4-3 EVU. Possession 56-44, shots 32-11, xG 4.16-1.27.",
+        "ok": true,
+        "issues": []
+      }
+    ]
+  }
+]

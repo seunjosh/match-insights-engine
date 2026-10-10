@@ -2,7 +2,7 @@
 
 A live "second screen" for football: synthetic match events stream in, plain code computes the stats, AI agents explain why moments matter, a fact-checker verifies every claim against the data, and the result is shown as broadcast-style overlays, personalised by mode, club, player and language (including Nigerian Pidgin, Yoruba, Hausa and Igbo).
 
-> Status: day 1. Working: synthetic match generator, replayer, stats engine (with control-vs-chaos score), moment detector with overlay JSON, tests. Planned: AI agents (explainer, fact-checker, editor, localiser), personalisation, translation, UI.
+> Status: day 1. Working: synthetic match generator, replayer, stats engine (with control-vs-chaos score), moment detector with overlay JSON, writer and fact-checker agents with a retry loop, tests. Planned: editor agent, personalisation, translation (including Nigerian Pidgin, Yoruba, Hausa, Igbo), live model writer on GitHub Models or Azure, UI.
 
 ## Replay a match live
 
@@ -47,6 +47,27 @@ Each overlay is timed and machine-readable, so a broadcast renderer can place it
 - `facts` holds the numbers behind the text. The AI agents may reword the text but must not change these.
 - `source_event_ids` lists the raw events the overlay is based on. A source id never comes from after `last_event_id`, so an overlay cannot use information from the future.
 - `verified` stays `null` until the fact-checker agent has checked the claims against the data.
+
+## Writer and fact-checker agents
+
+```bash
+python -m agents.pipeline --events data/match_001_events.jsonl --mode analyst
+python -m agents.pipeline --events data/match_001_events.jsonl --mode casual
+python -m agents.pipeline --events data/match_001_events.jsonl --mode analyst --fault 0.4   # writer makes mistakes on purpose
+```
+
+Every overlay goes through a write-check-retry loop:
+
+1. **Facts check.** The fact-checker recomputes the overlay's numbers from the raw events with code that is separate from the stats engine. An overlay whose facts do not match is held back and never aired.
+2. **Write.** A writer drafts a caption for the chosen mode: *analyst* (numbers up front) or *casual* (plain language).
+3. **Text check.** Every number, player name, team name and claim in the draft must be backed by the verified facts. A "goal" in a missed chance, a wrong scoreline, an invented statistic or the wrong player is rejected with a reason.
+4. **Retry.** The reasons go back to the writer for another attempt (up to 3). If all fail, the detector's own template text is used, but only if it passes the same check.
+
+Each result keeps a `check_log` of every draft and why it was accepted or rejected, so the self-correction is visible.
+
+**Writers.** `LocalWriter` is a template-based stand-in that needs no account or network. With `--fault` it makes deliberate mistakes on first drafts, which is how the checker and the retry loop are tested and demonstrated. It is a test tool, not a model. `OpenAICompatibleWriter` (`--writer llm`) calls any OpenAI-style chat endpoint, such as GitHub Models or Azure OpenAI, configured with `LLM_BASE_URL`, `LLM_API_KEY`, `LLM_MODEL` (and `LLM_AUTH=api-key`, `LLM_API_VERSION` for Azure OpenAI). It is told to use only the supplied facts and has been tested only against a stubbed network call so far.
+
+**What the checker cannot do.** It checks numbers, names and the claim phrases it knows about. It cannot judge style or catch a wrong claim worded in a way it has no rule for. Writers must use full player names, because several players share surnames.
 
 ## Data is synthetic
 
