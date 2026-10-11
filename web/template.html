@@ -1,0 +1,371 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Match Insights Engine</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Barlow:wght@400;500;600&family=Barlow+Condensed:wght@500;600;700&display=swap" rel="stylesheet">
+<style>
+:root{
+  --pitch:#16402B; --pitch2:#1B4A32; --chalk:#E9F1EA; --ink:#0C1712; --ink2:#2B3A31;
+  --home:#2F5BFF; --away:#F2B01E; --page:#E8EEE9; --panel:#F7F9F7; --line:#C9D5CC;
+  --muted:#51615A; --ok:#12794A; --warn:#B4531A; --calm:#2A8C8C; --wild:#D9461F;
+  --display:"Barlow Condensed","Arial Narrow",system-ui,sans-serif;
+  --body:"Barlow",system-ui,sans-serif;
+}
+*{box-sizing:border-box}
+html,body{margin:0}
+body{background:var(--page);color:var(--ink);font:400 16px/1.45 var(--body)}
+button,select,input{font:inherit;color:inherit}
+:focus-visible{outline:3px solid #7AA2FF;outline-offset:2px}
+.app{max-width:1280px;margin:0 auto;padding:16px;display:grid;grid-template-columns:minmax(0,1fr) 340px;gap:16px}
+@media(max-width:960px){.app{grid-template-columns:1fr;padding:12px}}
+
+/* scoreboard */
+.score{grid-column:1/-1;display:flex;align-items:stretch;justify-content:center;gap:0;font-family:var(--display)}
+.side{display:flex;align-items:center;gap:12px;padding:6px 18px;background:var(--ink);color:#fff;min-width:0}
+.side.home{border-left:10px solid var(--home);border-radius:6px 0 0 6px;flex-direction:row}
+.side.away{border-right:10px solid var(--away);border-radius:0 6px 6px 0;flex-direction:row-reverse}
+.side .nm{font-size:22px;font-weight:600;letter-spacing:.02em;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.side .code{font-size:14px;font-weight:500;opacity:.7}
+.side .n{font-size:46px;font-weight:700;line-height:1;min-width:1ch;text-align:center}
+.mid{background:#fff;border-top:1px solid var(--line);border-bottom:1px solid var(--line);padding:6px 20px;text-align:center;min-width:130px}
+.mid .clk{font-size:34px;font-weight:700;line-height:1}
+.mid .st{font-size:15px;font-weight:600;color:var(--muted);margin-top:2px}
+.mid .st b{color:var(--ink)}
+@media(max-width:640px){.side .nm{display:none}.side{padding:6px 12px}}
+
+/* stage */
+.stage{position:relative;background:var(--pitch);border-radius:8px;overflow:hidden}
+.stage svg.pitch{display:block;width:100%;height:auto}
+.kick{position:absolute;inset:0;display:grid;place-items:center;background:rgba(12,23,18,.45)}
+.kick[hidden]{display:none}
+.kick button{background:#fff;color:var(--ink);border:0;border-radius:999px;padding:14px 30px;font:700 24px var(--display);cursor:pointer;letter-spacing:.02em}
+.kick button:hover{background:var(--chalk)}
+
+/* lower third */
+.lt{position:absolute;left:3%;bottom:4%;max-width:78%;display:flex;align-items:stretch;
+  background:var(--ink);color:#fff;border-radius:6px;overflow:hidden;box-shadow:0 8px 24px rgba(0,0,0,.35);
+  transform:translateY(0);transition:transform .35s ease,opacity .35s ease}
+.lt.off{transform:translateY(24px);opacity:0;pointer-events:none}
+.lt .tab{width:12px;background:#8FA096;flex:none}
+.lt.home .tab{background:var(--home)} .lt.away .tab{background:var(--away)}
+.lt .body{padding:10px 18px 12px}
+.lt .meta{display:flex;gap:10px;align-items:baseline;font-family:var(--display);font-size:19px;font-weight:600}
+.lt .meta .min{opacity:.7;font-weight:500}
+.lt .txt{font-size:19px;line-height:1.35;margin-top:2px;max-width:60ch}
+.lt .chk{font-size:13px;margin-top:6px;color:#B9C8BE}
+.lt .chk .tick{color:#7BE0A8;font-weight:600}
+.lt.goal{background:#fff;color:var(--ink)}
+.lt.goal .meta .min{opacity:.6}
+.lt.goal .chk{color:var(--muted)} .lt.goal .chk .tick{color:var(--ok)}
+.lt.goal.home{box-shadow:0 0 0 4px var(--home),0 8px 24px rgba(0,0,0,.35)}
+.lt.goal.away{box-shadow:0 0 0 4px var(--away),0 8px 24px rgba(0,0,0,.35)}
+.lt.goal .txt{font-size:22px;font-weight:500}
+@media(max-width:640px){
+  .stage{overflow:visible;background:none}
+  .stage svg.pitch,.kick{border-radius:8px}
+  .lt{position:relative;left:0;bottom:0;max-width:none;margin-top:8px;min-height:88px}
+  .lt.off{transform:none;opacity:.35}
+  .lt .txt{font-size:16px}.lt.goal .txt{font-size:18px}}
+@media(prefers-reduced-motion:reduce){.lt{transition:none}}
+
+/* control or chaos strip */
+.strip{background:#fff;border-radius:8px;padding:12px 16px 10px;margin-top:12px;border:1px solid var(--line)}
+.strip h2{margin:0 0 6px;font:600 20px var(--display);display:flex;justify-content:space-between;gap:12px;align-items:baseline}
+.strip h2 span{font:400 14px var(--body);color:var(--muted)}
+.strip svg{display:block;width:100%;height:76px}
+.ends{display:flex;justify-content:space-between;font:600 14px var(--display);color:var(--muted);margin-top:2px}
+
+/* transport */
+.bar{display:flex;gap:10px;align-items:center;margin-top:12px;flex-wrap:wrap}
+.bar .play{background:var(--ink);color:#fff;border:0;border-radius:6px;padding:8px 18px;font:600 18px var(--display);cursor:pointer;min-width:92px}
+.bar .ghost{background:#fff;border:1px solid var(--line);border-radius:6px;padding:8px 12px;cursor:pointer}
+.bar input[type=range]{flex:1 1 200px;accent-color:var(--ink)}
+.bar select{background:#fff;border:1px solid var(--line);border-radius:6px;padding:7px 8px}
+
+/* side panel */
+.panel{background:var(--panel);border:1px solid var(--line);border-radius:8px;padding:14px 16px}
+.panel h2{margin:0 0 8px;font:600 22px var(--display)}
+.ctl{margin:0 0 12px;border:0;padding:0}
+.ctl legend{font-weight:600;font-size:14px;color:var(--muted);padding:0;margin-bottom:4px}
+.seg{display:flex;flex-wrap:wrap;gap:6px}
+.seg label{position:relative}
+.seg input{position:absolute;opacity:0;inset:0;cursor:pointer}
+.seg span{display:block;padding:6px 11px;border:1px solid var(--line);border-radius:999px;background:#fff;font-size:15px}
+.seg input:checked+span{background:var(--ink);color:#fff;border-color:var(--ink)}
+.seg input:focus-visible+span{outline:3px solid #7AA2FF;outline-offset:2px}
+.note{font-size:13px;color:var(--muted);margin:8px 0 0}
+.chk-row{display:flex;gap:8px;align-items:center;font-size:15px;margin-top:4px}
+
+.feedh{display:flex;justify-content:space-between;align-items:baseline;margin:16px 0 6px}
+.feedh h2{margin:0}
+.feedh span{font-size:13px;color:var(--muted)}
+.feed{list-style:none;margin:0;padding:0;max-height:440px;overflow:auto}
+.feed li{border-top:1px solid var(--line);padding:9px 0}
+.feed .h{display:flex;gap:8px;align-items:baseline;font:600 17px var(--display)}
+.feed .h .min{color:var(--muted);font-weight:500}
+.feed .h i{width:10px;height:10px;border-radius:50%;background:#8FA096;display:inline-block;flex:none}
+.feed .h i.home{background:var(--home)} .feed .h i.away{background:var(--away)}
+.feed p{margin:2px 0 0;font-size:15px}
+.feed .why{font-size:13px;color:var(--muted);margin-top:3px}
+.badge{display:inline-block;font-size:12px;font-weight:600;border-radius:4px;padding:1px 6px;margin-left:6px}
+.badge.fix{background:#FDE6D3;color:var(--warn)}
+.badge.fb{background:#E4E9E6;color:var(--ink2)}
+.feed details{margin-top:4px;font-size:13px}
+.feed summary{cursor:pointer;color:var(--warn)}
+.feed .draft{margin:4px 0 0;padding:6px 8px;background:#fff;border:1px solid var(--line);border-radius:6px}
+.feed .draft q{display:block;color:var(--ink2)}
+.feed .draft em{display:block;font-style:normal;color:var(--warn);margin-top:2px}
+.foot{grid-column:1/-1;font-size:13px;color:var(--muted)}
+.empty{color:var(--muted);font-size:15px;padding:8px 0}
+</style>
+</head>
+<body>
+<div class="app">
+  <header class="score" aria-label="Scoreboard">
+    <div class="side home"><span class="n" id="sh">0</span><span><span class="nm" id="nh"></span><br><span class="code" id="ch"></span></span></div>
+    <div class="mid"><div class="clk" id="clk">0'</div><div class="st" id="state">Kick off soon</div></div>
+    <div class="side away"><span class="n" id="sa">0</span><span style="text-align:right"><span class="nm" id="na"></span><br><span class="code" id="ca"></span></span></div>
+  </header>
+
+  <main>
+    <div class="stage" id="stage">
+      <svg class="pitch" id="pitch" viewBox="0 0 105 68" role="img" aria-label="Pitch with every shot and card so far"></svg>
+      <div class="lt off" id="lt" aria-live="polite">
+        <div class="tab"></div>
+        <div class="body">
+          <div class="meta"><span id="ltk"></span><span class="min" id="ltm"></span></div>
+          <div class="txt" id="ltt"></div>
+          <div class="chk" id="ltc"></div>
+        </div>
+      </div>
+      <div class="kick" id="kick"><button id="kickbtn" type="button">Kick off</button></div>
+    </div>
+
+    <div class="bar">
+      <button class="play" id="play" type="button">Play</button>
+      <input type="range" id="scrub" min="0" max="100" value="0" aria-label="Match time">
+      <label>Speed <select id="speed"><option value="30">30x</option><option value="60" selected>60x</option><option value="120">120x</option><option value="240">240x</option></select></label>
+      <button class="ghost" id="nextgoal" type="button">Next goal</button>
+    </div>
+
+    <section class="strip" aria-label="Control or chaos">
+      <h2>Control or chaos <span id="chaosnote">How wild the last 5 minutes were</span></h2>
+      <svg id="chaos" viewBox="0 0 1000 76" preserveAspectRatio="none" role="img" aria-label="Chaos index over the match"></svg>
+      <div class="ends"><span>Calm, tidy passing</span><span>Frantic, ball changing hands</span></div>
+    </section>
+  </main>
+
+  <aside>
+    <section class="panel" aria-label="Your match">
+      <h2>Your match</h2>
+      <fieldset class="ctl"><legend>Language</legend><div class="seg" id="c-lang"></div></fieldset>
+      <fieldset class="ctl"><legend>Style</legend><div class="seg" id="c-mode"></div></fieldset>
+      <fieldset class="ctl"><legend>Your club</legend><div class="seg" id="c-team"></div></fieldset>
+      <fieldset class="ctl"><legend>Follow a player</legend><div class="seg" id="c-player"></div></fieldset>
+      <label class="chk-row"><input type="checkbox" id="showchk"> Show how each caption was checked</label>
+      <p class="note" id="writernote"></p>
+
+      <div class="feedh"><h2>Shown so far</h2><span id="count"></span></div>
+      <ul class="feed" id="feed"></ul>
+    </section>
+  </aside>
+
+  <p class="foot">All clubs, players and events are synthetic. Every number in a caption is recomputed from the raw match events before it airs. Pidgin and Yoruba wording is an AI draft awaiting review by a native speaker.</p>
+</div>
+
+<script id="data" type="application/json">__DATA__</script>
+<script>
+(function(){
+"use strict";
+const D = JSON.parse(document.getElementById("data").textContent);
+const T = D.timeline, END = T.end;
+const $ = id => document.getElementById(id);
+const S = {t:0, playing:false, speed:60, lang:"en", mode:"casual", team:"-", player:"-", check:false};
+try{ const saved = JSON.parse(localStorage.getItem("mie-profile")||"{}"); for(const k of ["lang","mode","team","player"]) if(saved[k]) S[k]=saved[k]; }catch(e){}
+
+const NS = "http://www.w3.org/2000/svg";
+const el = (tag, attrs, parent) => { const n = document.createElementNS(NS, tag); for(const k in attrs) n.setAttribute(k, attrs[k]); if(parent) parent.appendChild(n); return n; };
+
+/* ---------- static bits ---------- */
+$("nh").textContent = D.teams.home.name; $("ch").textContent = D.teams.home.code;
+$("na").textContent = D.teams.away.name; $("ca").textContent = D.teams.away.code;
+
+/* pitch: mown stripes, lines, shots */
+const pitch = $("pitch");
+for(let i=0;i<10;i++) el("rect",{x:i*10.5,y:0,width:10.5,height:68,fill:i%2?"#1B4A32":"#16402B"},pitch);
+const line = {fill:"none",stroke:"#E9F1EA","stroke-width":.28,opacity:.85};
+el("rect",{x:.5,y:.5,width:104,height:67,...line},pitch);
+el("line",{x1:52.5,y1:.5,x2:52.5,y2:67.5,...line},pitch);
+el("circle",{cx:52.5,cy:34,r:9.15,...line},pitch);
+for(const [x,w] of [[.5,16.5],[88.5,16.5]]){ el("rect",{x,y:13.85,width:w,height:40.3,...line},pitch); }
+for(const [x,w] of [[.5,5.5],[99,5.5]]){ el("rect",{x,y:24.85,width:w,height:18.3,...line},pitch); }
+el("rect",{x:-1.2,y:30.3,width:1.7,height:7.4,...line},pitch);
+el("rect",{x:104.5,y:30.3,width:1.7,height:7.4,...line},pitch);
+const marks = el("g",{},pitch);
+const COL = {home:"#2F5BFF", away:"#F2B01E"};
+const drawn = new Map();
+function addMarker(i, e){
+  const g = el("g",{},marks);
+  const cx = e.x*1.05, cy = e.y*.68;
+  const title = el("title",{},g);
+  if(e.type==="shot"){
+    const r = 0.9 + Math.sqrt(e.xg||0.05)*3.2;
+    const goal = e.outcome==="goal";
+    el("circle",{cx,cy,r,fill:goal?COL[e.team]:"none",stroke:COL[e.team],"stroke-width":goal?.5:.6,"fill-opacity":.95},g);
+    if(goal){ el("circle",{cx,cy,r:r+1.1,fill:"none",stroke:"#fff","stroke-width":.35},g); }
+    title.textContent = `${e.label} ${e.player}: ${goal?"goal":e.outcome.replace("_"," ")}, xG ${e.xg}`;
+  } else {
+    el("rect",{x:cx-.9,y:cy-1.3,width:1.8,height:2.6,rx:.2,fill:e.type==="red_card"?"#E5392B":"#F5D90A",stroke:"#0C1712","stroke-width":.2},g);
+    title.textContent = `${e.label} ${e.player}: ${e.type.replace("_"," ")}`;
+  }
+  drawn.set(i,g);
+}
+
+/* chaos strip */
+const cs = $("chaos");
+const N = T.chaos.length;
+const X = i => i/(N-1)*1000;
+const defs = el("defs",{},cs);
+const grad = el("linearGradient",{id:"gr",x1:0,y1:1,x2:0,y2:0},defs);
+el("stop",{offset:"0%","stop-color":"#2A8C8C"},grad); el("stop",{offset:"100%","stop-color":"#D9461F"},grad);
+el("rect",{x:0,y:0,width:1000,height:76,fill:"#EEF2EF"},cs);
+for(const y of [76*(1-.30),76*(1-.55)]) el("line",{x1:0,x2:1000,y1:y,y2:y,stroke:"#C9D5CC","stroke-dasharray":"4 6"},cs);
+const clipRect = el("rect",{x:0,y:0,width:0,height:76},el("clipPath",{id:"cp"},defs));
+let d = "M0,76"; for(let i=0;i<N;i++) d += `L${X(i).toFixed(1)},${(76-T.chaos[i]*76).toFixed(1)}`; d += "L1000,76Z";
+el("path",{d,fill:"url(#gr)","clip-path":"url(#cp)"},cs);
+let ht = null; for(let i=1;i<N;i++){ if(T.clock[i].startsWith("45+")||(T.clock[i]==="46'"&&!ht)){ ht=i; break; } }
+const needle = el("line",{x1:0,x2:0,y1:0,y2:76,stroke:"#0C1712","stroke-width":2},cs);
+el("text",{x:8,y:14,"font-size":12,fill:"#51615A","font-family":"Barlow Condensed, sans-serif"},cs).textContent="";
+
+/* ---------- controls ---------- */
+function seg(id, name, options, key){
+  const box = $(id); box.innerHTML = "";
+  options.forEach(([val,label]) => {
+    const lab = document.createElement("label");
+    const inp = document.createElement("input");
+    inp.type="radio"; inp.name=name; inp.value=val; inp.checked = S[key]===val;
+    inp.addEventListener("change", () => { S[key]=val; onProfile(); });
+    const sp = document.createElement("span"); sp.textContent = label;
+    lab.append(inp, sp); box.appendChild(lab);
+  });
+}
+function buildControls(){
+  seg("c-lang","lang",[["en","English"],["pcm","Pidgin"],["yo","Yorùbá"]],"lang");
+  seg("c-mode","mode",[["casual","Casual"],["analyst","Analyst"]],"mode");
+  seg("c-team","team",[["-","Any club"],[D.teams.home.code,D.teams.home.name],[D.teams.away.code,D.teams.away.name]],"team");
+  seg("c-player","player",[["-","No one"],[D.stars.home.id,D.stars.home.name],[D.stars.away.id,D.stars.away.name]],"player");
+}
+$("writernote").textContent = D.fault>0
+  ? "Captions come from a test writer that makes mistakes on purpose, so you can see the fact-checker catch them. It is not an AI model."
+  : "Captions are written by the " + D.writer + " writer and checked before they air.";
+
+/* ---------- feed ---------- */
+let feed = [], shownCount = -1;
+function currentFeed(){
+  const k = [S.lang,S.mode,S.team,S.player].join("|");
+  feed = D.feeds[k].overlays; shownCount = -1;
+}
+function onProfile(){
+  try{ localStorage.setItem("mie-profile", JSON.stringify({lang:S.lang,mode:S.mode,team:S.team,player:S.player})); }catch(e){}
+  currentFeed(); update(true);
+}
+function sideOf(o){ return o.team || ""; }
+const L = k => (D.labels[S.lang]||D.labels.en)[k] || k;
+function checkLine(o){
+  if(o.fallback) return `Translation did not pass the check, so the checked English caption is shown.`;
+  const n = D.total_events.toLocaleString();
+  if(o.attempts>1) return `<span class="tick">Checked</span> against ${n} events. Draft ${o.attempts-1} was rejected and rewritten.`;
+  return `<span class="tick">Checked</span> against ${n} events.`;
+}
+function renderFeed(shown){
+  const ul = $("feed"); ul.innerHTML = "";
+  $("count").textContent = shown.length ? `${shown.length} of ${feed.length}` : `${feed.length} planned`;
+  if(!shown.length){ const li=document.createElement("li"); li.className="empty"; li.textContent="Press Play. Captions appear here as the match unfolds."; ul.appendChild(li); return; }
+  for(const o of shown.slice().reverse()){
+    const li = document.createElement("li");
+    let html = `<div class="h"><i class="${sideOf(o)}"></i><span>${L(o.kind)}</span><span class="min">${o.label}</span>`;
+    if(o.attempts>1 && !o.fallback) html += `<span class="badge fix">Corrected</span>`;
+    if(o.fallback) html += `<span class="badge fb">English</span>`;
+    html += `</div><p></p><div class="why">${o.why.join(", ")}</div>`;
+    li.innerHTML = html; li.querySelector("p").textContent = o.text;
+    if(S.check && o.rejected.length){
+      const det = document.createElement("details"); det.open = true;
+      det.innerHTML = `<summary>${o.rejected.length} rejected draft${o.rejected.length>1?"s":""}</summary>`;
+      for(const r of o.rejected){
+        const dv = document.createElement("div"); dv.className="draft";
+        const q = document.createElement("q"); q.textContent = r.text;
+        const em = document.createElement("em"); em.textContent = r.issues.join("; ");
+        dv.append(q, em); det.appendChild(dv);
+      }
+      li.appendChild(det);
+    }
+    ul.appendChild(li);
+  }
+}
+
+/* ---------- per-frame update ---------- */
+let lastActive = null;
+function update(force){
+  const t = Math.min(S.t, END);
+  const i = Math.min(Math.floor(t/T.step), N-1);
+  $("sh").textContent = T.home[i]; $("sa").textContent = T.away[i];
+  $("clk").textContent = T.clock[i];
+  const st = T.state[i];
+  $("state").innerHTML = t<1 ? "Kick off soon" : `Right now: <b>${st==="chaos"?"Chaos":st==="control"?"Control":"Balanced"}</b>`;
+  $("scrub").value = String(Math.round(t));
+  clipRect.setAttribute("width", X(i)); needle.setAttribute("x1", X(i)); needle.setAttribute("x2", X(i));
+
+  D.events.forEach((e,k) => { const on = e.t<=t; if(on && !drawn.has(k)) addMarker(k,e); else if(!on && drawn.has(k)){ drawn.get(k).remove(); drawn.delete(k);} });
+
+  const shown = feed.filter(o => o.air<=t);
+  if(force || shown.length!==shownCount){ shownCount = shown.length; renderFeed(shown); }
+
+  const act = feed.find(o => o.air<=t && t<o.air+o.secs);
+  const lt = $("lt");
+  if(act){
+    if(lastActive!==act.id || force){
+      lt.className = "lt " + sideOf(act) + (act.kind==="goal"?" goal":"");
+      $("ltk").textContent = L(act.kind); $("ltm").textContent = act.label;
+      $("ltt").textContent = act.text; $("ltc").innerHTML = checkLine(act);
+      $("ltc").style.display = S.check ? "" : "none";
+    }
+  } else lt.className = "lt off " + (lt.className.includes("home")?"home":lt.className.includes("away")?"away":"");
+  lastActive = act ? act.id : null;
+}
+
+/* ---------- playback ---------- */
+let prev = 0;
+function frame(ts){
+  if(S.playing){
+    if(prev) S.t = Math.min(END, S.t + (ts-prev)/1000*S.speed);
+    if(S.t>=END){ S.playing=false; $("play").textContent="Replay"; }
+    update(false);
+  }
+  prev = ts; requestAnimationFrame(frame);
+}
+function play(){
+  if(S.t>=END) S.t=0;
+  S.playing = !S.playing; prev = 0;
+  $("play").textContent = S.playing ? "Pause" : "Play";
+  $("kick").hidden = true; update(false);
+}
+$("play").addEventListener("click", play);
+$("kickbtn").addEventListener("click", play);
+$("scrub").max = END;
+$("scrub").addEventListener("input", e => { S.t = +e.target.value; $("kick").hidden = true; update(true); });
+$("speed").addEventListener("change", e => S.speed = +e.target.value);
+$("nextgoal").addEventListener("click", () => {
+  const next = D.events.filter(e => e.type==="shot" && e.outcome==="goal" && e.t > S.t+1)[0];
+  if(next){ S.t = Math.max(0, next.t-8); $("kick").hidden = true; update(true); }
+});
+$("showchk").addEventListener("change", e => { S.check = e.target.checked; update(true); });
+document.addEventListener("keydown", e => { if(e.code==="Space" && e.target===document.body){ e.preventDefault(); play(); }});
+
+buildControls(); currentFeed(); update(true); requestAnimationFrame(frame);
+})();
+</script>
+</body>
+</html>

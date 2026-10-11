@@ -1,8 +1,8 @@
 # Match Insights Engine (working title)
 
-A live "second screen" for football: synthetic match events stream in, plain code computes the stats, AI agents explain why moments matter, a fact-checker verifies every claim against the data, and the result is shown as broadcast-style overlays, personalised by mode, club, player and language (including Nigerian Pidgin, Yoruba, Hausa and Igbo).
+A live "second screen" for football: synthetic match events stream in, plain code computes the stats, AI agents explain why moments matter, a fact-checker verifies every claim against the data, and the result is shown as broadcast-style overlays, personalised by mode, club, player and language (English, Nigerian Pidgin and Yoruba now; Hausa and Igbo next).
 
-> Status: day 1. Working: synthetic match generator, replayer, stats engine (with control-vs-chaos score), moment detector with overlay JSON, writer and fact-checker agents with a retry loop, tests. Planned: editor agent, personalisation, translation (including Nigerian Pidgin, Yoruba, Hausa, Igbo), live model writer on GitHub Models or Azure, UI.
+> Status: day 1. Working: synthetic match generator, replayer, stats engine (with control-vs-chaos score), moment detector with overlay JSON, writer and fact-checker agents with a retry loop, personalisation (viewer profiles, favourite club and player, player focus), captions in English, Nigerian Pidgin and Yoruba, tests. Also working: editor agent and the broadcast-style match screen. Planned: Hausa and Igbo, live model writer on GitHub Models or Azure, UI.
 
 ## Replay a match live
 
@@ -68,6 +68,54 @@ Each result keeps a `check_log` of every draft and why it was accepted or reject
 **Writers.** `LocalWriter` is a template-based stand-in that needs no account or network. With `--fault` it makes deliberate mistakes on first drafts, which is how the checker and the retry loop are tested and demonstrated. It is a test tool, not a model. `OpenAICompatibleWriter` (`--writer llm`) calls any OpenAI-style chat endpoint, such as GitHub Models or Azure OpenAI, configured with `LLM_BASE_URL`, `LLM_API_KEY`, `LLM_MODEL` (and `LLM_AUTH=api-key`, `LLM_API_VERSION` for Azure OpenAI). It is told to use only the supplied facts and has been tested only against a stubbed network call so far.
 
 **What the checker cannot do.** It checks numbers, names and the claim phrases it knows about. It cannot judge style or catch a wrong claim worded in a way it has no rule for. Writers must use full player names, because several players share surnames.
+
+## Personalised feeds
+
+```bash
+python -m personalize.feed --events data/match_001_events.jsonl --mode analyst --density full
+python -m personalize.feed --events data/match_001_events.jsonl --mode casual --team EVU --density light
+python -m personalize.feed --events data/match_001_events.jsonl --mode casual --team EVU --player EVU11
+python -m personalize.feed --events data/match_001_events.jsonl --mode analyst --focus passing
+```
+
+A viewer profile (`personalize/profile.py`) has:
+
+| Setting | Effect |
+|---|---|
+| `mode` | `analyst`: numbers up front. `casual`: plain language |
+| `favorite_team` | More overlays about your club, fewer low-priority ones about the opponent |
+| `favorite_player` | Turns on **player focus**: stat cards for that player at 15, 30, 60 and 75 minutes, half time and full time, and priority for any overlay involving them |
+| `focus` | One thing you care about: `passing`, `shooting`, `pressing` or `discipline` |
+| `density` | `light` (about 12 overlays), `normal` (about 22) or `full` (everything) |
+
+Goals, red cards, half time and full time are always shown. Every overlay in a personalised feed carries `relevance` and `why_shown` (for example "your club, your player"), so the choices are explainable. Every caption still goes through the write-check-retry loop, so a personalised feed is as verified as the default one.
+
+The same match, two viewers: an analyst on `full` density reads `Chaos index 0.61: 2.0 turnovers a minute and 78.4% pass completion over the last 5 minutes.` A casual fan reads `The game has gone wild. The ball keeps changing hands, 2.0 times a minute.` The facts underneath are identical.
+
+## Editor agent
+
+`agents/editor.py` decides what actually airs and when. Failed-check overlays never air; key moments (goals, red cards, half and full time) cut in at once and shorten whatever is on screen; other captions wait for a free screen but are dropped if they would be more than 15 seconds late; nothing ever airs earlier than the moment it describes. Every decision and its reason is in the feed's `editor_log`.
+
+## The match screen
+
+```bash
+python -m web.build            # writes web/screen.html, then open it in a browser
+```
+
+One self-contained page: scoreboard, a pitch showing every real shot and card position, a Control-or-chaos strip for the whole match, and broadcast-style captions. The viewer picks language, style, club and a player to follow, and the captions change at once. "Show how each caption was checked" reveals the drafts the fact-checker rejected. By default the captions come from the test writer that makes mistakes on purpose, so the checker is visible; build with `--fault 0` for clean output.
+
+## Languages: English, Nigerian Pidgin, Yoruba
+
+```bash
+python -m personalize.feed --events data/match_001_events.jsonl --mode casual --lang pcm
+python -m personalize.feed --events data/match_001_events.jsonl --mode analyst --lang yo --team EVU
+python -m agents.pipeline --events data/match_001_events.jsonl --lang pcm --fault 0.4
+python -m tools.language_review > data/language_review.md    # every phrase next to an example
+```
+
+`--lang` is `en`, `pcm` (Nigerian Pidgin) or `yo` (Yoruba); in code it is `ViewerProfile(language=...)`. Numbers, names and scorelines are filled in from the verified facts, so only the wording changes. The fact-checker checks captions in every language: numbers, names, scoreline, "goal" words in moments that are not goals, and phrases such as "level" or "in front" that must match the real situation (per-language lists in `agents/languages.py`). If no draft in the chosen language passes, the checked English text is shown and the overlay is marked `text_language: "en"`, so an unchecked translation never reaches the screen.
+
+**Review status.** The Pidgin and Yoruba wording was drafted by an AI and has not yet been reviewed by a native speaker. A new language is one more pack in `agents/languages.py`: plain phrase strings with placeholders, so a speaker can correct the wording without touching the football logic.
 
 ## Data is synthetic
 

@@ -20,6 +20,7 @@ import re
 from dataclasses import dataclass, field
 
 from engine.clock import MatchClock
+from . import languages
 from engine.stats import CHAOS_ABOVE, CONTROL_BELOW, PASS_MISS_BOUNDS, SIDES, TURNOVER_RATE_BOUNDS
 
 NUMBER = re.compile(r"\d+(?:\.\d+)?")
@@ -27,6 +28,7 @@ TOLERANCE = 0.051
 MAX_WORDS = 60
 GOAL_WORDS = re.compile(r"\bgoals?\b|\bscor(?:es|ed)\b|\bequali[sz]er\b", re.I)
 GOAL_KINDS = {"goal", "half_time", "full_time"}
+GOAL_WORD_KINDS = GOAL_KINDS | {"player_card"}   # kinds whose text may mention goals
 BOTH_TEAM_KINDS = {"half_time", "full_time", "state_shift"}
 # Phrases that assert how a goal changed the match, and the situation they mean.
 SITUATION_PHRASES = {
@@ -230,6 +232,26 @@ class FactChecker:
     def _facts_full_time(self, o, ev):
         return self._facts_summary(o, ev, "full_time")
 
+    def _facts_player_card(self, o, ev):
+        pid = o["player"]["id"]
+        mine = [e for e in self._upto(ev) if e.get("player_id") == pid]
+        passes = [e for e in mine if e["type"] == "pass"]
+        done = sum(e["outcome"] == "complete" for e in passes)
+        shots = [e for e in mine if e["type"] == "shot"]
+        expected = {
+            "passes": len(passes), "passes_complete": done,
+            "pass_accuracy": round(100 * done / len(passes), 1) if passes else None,
+            "shots": len(shots),
+            "shots_on_target": sum(e["outcome"] in ("saved", "goal") for e in shots),
+            "goals": sum(1 for e in mine if e["type"] == "goal"),
+            "xg": round(sum(e["xg"] for e in shots), 2),
+            "tackles_won": sum(1 for e in mine if e["type"] == "tackle" and e["outcome"] == "won"),
+            "pressures": sum(1 for e in mine if e["type"] == "pressure"),
+        }
+        foreign = [s for s in o["source_event_ids"] if self.events[self.pos[s]].get("player_id") != pid]
+        issues = [f"source events {foreign} do not involve {pid}"] if foreign else []
+        return issues + self._cmp(expected, o["facts"])
+
     def _window_numbers(self, win, t, seconds):
         span = max(min(seconds, t), 60) / 60
         turnovers = sum(1 for e in win if e["type"] == "possession_change")
@@ -297,10 +319,12 @@ class FactChecker:
             tokens |= set(self.codes.values())   # the scoreline shows both codes
         return tokens
 
-    def check_text(self, o: dict, text: str) -> list[str]:
-        """Issues with a caption for overlay `o`. Empty list = acceptable."""
+    def check_text(self, o: dict, text: str, lang: str = "en") -> list[str]:
+        """Issues with a caption for overlay `o` written in `lang`. Empty list = acceptable."""
         issues = []
         facts = o["facts"]
+        if lang != "en":
+            text = languages.nfc(text)
 
         allowed = self._allowed_numbers(o)
         for num in dict.fromkeys(NUMBER.findall(text)):
@@ -331,12 +355,13 @@ class FactChecker:
         if not player and o["team"] and not (allowed_teams & set(mentioned)):
             issues.append(f'the caption does not name {self.names[o["team"]]}')
 
-        if o["kind"] not in GOAL_KINDS and GOAL_WORDS.search(text):
+        if o["kind"] not in GOAL_WORD_KINDS and languages.GOAL_WORDS[lang].search(text):
             issues.append("the caption talks about a goal, but this moment is not a goal")
 
         if o["kind"] == "goal":
             lowered = text.lower()
-            for phrase, situation in SITUATION_PHRASES.items():
+            phrases = SITUATION_PHRASES if lang == "en" else languages.SITUATION_PHRASES[lang]
+            for phrase, situation in phrases.items():
                 if phrase in lowered and situation != facts["situation"]:
                     issues.append(f'"{phrase}" contradicts the facts (situation: {facts["situation"]})')
 

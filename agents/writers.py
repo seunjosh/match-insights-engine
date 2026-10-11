@@ -23,6 +23,8 @@ import random
 import re
 import urllib.request
 
+from . import languages
+
 SIDES = ("home", "away")
 MODES = ("analyst", "casual")
 NUMBER = re.compile(r"\d+(?:\.\d+)?")
@@ -52,15 +54,19 @@ class LocalWriter:
         self.seed = seed
 
     # ---- public ---------------------------------------------------------
-    def write(self, o: dict, mode: str = "casual", feedback: list | None = None) -> str:
+    def write(self, o: dict, mode: str = "casual", feedback: list | None = None,
+              lang: str = "en") -> str:
         if mode not in MODES:
             raise ValueError(f"mode must be one of {MODES}, got {mode!r}")
-        build = getattr(self, "_" + o["kind"], None)
-        text = build(o, mode) if build else o["text"]
+        if lang == "en":
+            build = getattr(self, "_" + o["kind"], None)
+            text = build(o, mode) if build else o["text"]
+        else:
+            text = languages.render(self, o, mode, lang)
         if feedback is None and self.fault_rate > 0:
             rng = random.Random(f'{self.seed}-{o["id"]}')
             if rng.random() < self.fault_rate:
-                text = self.corrupt(text, o, rng.choice(self._faults_for(o)))
+                text = self.corrupt(text, o, rng.choice(self._faults_for(o, lang)), lang)
         return text
 
     # ---- helpers --------------------------------------------------------
@@ -175,6 +181,23 @@ class LocalWriter:
     _half_time = _summary
     _full_time = _summary
 
+    def _player_card(self, o, mode):
+        f, who = o["facts"], self._who(o)
+        passes = f'{f["passes"]} {"pass" if f["passes"] == 1 else "passes"}'
+        shots = f'{f["shots"]} {"shot" if f["shots"] == 1 else "shots"}'
+        tackles = f'{f["tackles_won"]} {"tackle" if f["tackles_won"] == 1 else "tackles"} won'
+        pressures = f'{f["pressures"]} pressure {"action" if f["pressures"] == 1 else "actions"}'
+        if mode == "analyst":
+            if f["pass_accuracy"] is not None:
+                passes += f' ({f["pass_accuracy"]}% completed)'
+            text = f'{who} ({self._code(o)}) so far: {passes}, {shots}, xG {f["xg"]}'
+            if f["goals"]:
+                text += f', {f["goals"]} {"goal" if f["goals"] == 1 else "goals"}'
+            return text + f', {tackles}, {pressures}.'
+        if f["goals"]:
+            shots += f' (including {f["goals"]} {"goal" if f["goals"] == 1 else "goals"})'
+        return f'Your player {who} so far: {passes}, {shots} and {tackles}.'
+
     def _state_shift(self, o, mode):
         f = o["facts"]
         tpm, mins = f["turnovers_per_min"], f["window_seconds"] // 60
@@ -204,18 +227,21 @@ class LocalWriter:
 
     # ---- deliberate mistakes (testing and demos only) --------------------
     @staticmethod
-    def _faults_for(o):
+    def _faults_for(o, lang="en"):
         faults = ["number", "entity", "claim"]
-        if o["kind"] == "goal":
-            faults.append("situation")
-        if o["kind"] == "big_chance":
-            faults.append("outcome")
+        if lang == "en":   # the situation and outcome faults edit English phrases
+            if o["kind"] == "goal":
+                faults.append("situation")
+            if o["kind"] == "big_chance":
+                faults.append("outcome")
         return faults
 
-    def corrupt(self, text: str, o: dict, fault: str) -> str:
+    def corrupt(self, text: str, o: dict, fault: str, lang: str = "en") -> str:
         """Return `text` with one deliberate mistake. Falls back to an invented stat."""
-        out = getattr(self, "_fault_" + fault)(text, o)
-        return out if out != text else self._fault_claim(text, o)
+        out = text if (lang != "en" and fault == "claim") else getattr(self, "_fault_" + fault)(text, o)
+        if out == text:
+            out = text + (self._fault_claim("", o) if lang == "en" else languages.fake_claim(lang))
+        return out
 
     @staticmethod
     def _fault_number(text, o):
@@ -294,7 +320,7 @@ class OpenAICompatibleWriter:
         return cls(env["LLM_BASE_URL"], env["LLM_API_KEY"], env["LLM_MODEL"],
                    env.get("LLM_AUTH", "bearer"), env.get("LLM_API_VERSION"), teams=teams)
 
-    def build_messages(self, o, mode, feedback):
+    def build_messages(self, o, mode, feedback, lang="en"):
         payload = {
             "kind": o["kind"], "headline": o["headline"], "base_text": o["text"],
             "team": self.names.get(o["team"]) if o.get("team") else None,
@@ -305,10 +331,14 @@ class OpenAICompatibleWriter:
         if feedback:
             user += ("\nYour previous draft was rejected for these reasons, fix them: "
                      + "; ".join(feedback))
-        return [{"role": "system", "content": self.RULES + " " + self.MODE_HINTS[mode]},
+        system = self.RULES + " " + self.MODE_HINTS[mode]
+        if lang != "en":
+            system += (f" Write the caption in {languages.LANGUAGE_NAMES[lang]}. Keep every number, "
+                       "player name, team name and the scoreline exactly as in the facts, using digits.")
+        return [{"role": "system", "content": system},
                 {"role": "user", "content": user}]
 
-    def write(self, o, mode="casual", feedback=None):
+    def write(self, o, mode="casual", feedback=None, lang="en"):
         if mode not in MODES:
             raise ValueError(f"mode must be one of {MODES}, got {mode!r}")
         url = self.base_url + "/chat/completions"
@@ -318,7 +348,7 @@ class OpenAICompatibleWriter:
         headers["api-key" if self.auth == "api-key" else "Authorization"] = (
             self.api_key if self.auth == "api-key" else f"Bearer {self.api_key}")
         body = {"model": self.model, "temperature": 0.4,
-                "messages": self.build_messages(o, mode, feedback)}
+                "messages": self.build_messages(o, mode, feedback, lang)}
         data = self.post(url, headers, body)
         return data["choices"][0]["message"]["content"].strip().strip('"')
 

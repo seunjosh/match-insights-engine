@@ -31,8 +31,13 @@ from .writers import LocalWriter, OpenAICompatibleWriter
 
 
 def run(overlays: list[dict], events: list[dict], teams: dict, writer,
-        mode: str = "casual", max_attempts: int = 3):
-    """Return (results, summary). Results keep the original overlay fields."""
+        mode: str = "casual", max_attempts: int = 3, lang: str = "en"):
+    """Return (results, summary). Results keep the original overlay fields.
+
+    `lang` is "en", "pcm" (Nigerian Pidgin) or "yo" (Yoruba). If no draft in that
+    language passes the check, the detector's English text is used instead and
+    `text_language` says so, rather than airing an unchecked translation.
+    """
     checker = FactChecker(events, teams)
     results = []
     summary = {"total": 0, "first_try": 0, "fixed_by_retry": 0, "fallback": 0, "held_back": 0}
@@ -40,7 +45,8 @@ def run(overlays: list[dict], events: list[dict], teams: dict, writer,
     for o in overlays:
         summary["total"] += 1
         r = dict(o)
-        r.update(base_text=o["text"], mode=mode, writer=writer.name, attempts=0, check_log=[])
+        r.update(base_text=o["text"], mode=mode, language=lang, text_language=lang, writer=writer.name,
+             attempts=0, check_log=[])
 
         grounding = checker.check_facts(o)
         if grounding:
@@ -52,8 +58,9 @@ def run(overlays: list[dict], events: list[dict], teams: dict, writer,
 
         final, feedback = None, None
         for attempt in range(1, max_attempts + 1):
-            draft = writer.write(o, mode, feedback)
-            issues = checker.check_text(o, draft)
+            draft = (writer.write(o, mode, feedback) if lang == "en"
+                     else writer.write(o, mode, feedback, lang))
+            issues = checker.check_text(o, draft, lang)
             r["check_log"].append({"attempt": attempt, "stage": "text", "text": draft,
                                    "ok": not issues, "issues": issues})
             r["attempts"] = attempt
@@ -66,6 +73,7 @@ def run(overlays: list[dict], events: list[dict], teams: dict, writer,
         if final is None and not checker.check_text(o, o["text"]):
             final = o["text"]
             r["fallback"] = True
+            r["text_language"] = "en"
             summary["fallback"] += 1
 
         if final is None:
@@ -85,6 +93,8 @@ def main() -> None:
     ap.add_argument("--writer", choices=("local", "llm"), default="local")
     ap.add_argument("--fault", type=float, default=0.0,
                     help="local writer only: chance (0-1) of a deliberate mistake on the first draft")
+    ap.add_argument("--lang", choices=("en", "pcm", "yo"), default="en",
+                    help="caption language: en, pcm (Nigerian Pidgin) or yo (Yoruba)")
     ap.add_argument("--seed", type=int, default=0)
     ap.add_argument("--out", help="output JSON path")
     args = ap.parse_args()
@@ -97,7 +107,7 @@ def main() -> None:
     writer = (OpenAICompatibleWriter.from_env(teams) if args.writer == "llm"
               else LocalWriter(teams, args.fault, args.seed))
 
-    results, summary = run(overlays, events, teams, writer, args.mode)
+    results, summary = run(overlays, events, teams, writer, args.mode, lang=args.lang)
 
     for r in results:
         at = r["at"]
@@ -111,7 +121,7 @@ def main() -> None:
                 if entry.get("text"):
                     print(f'        rejected draft: {entry["text"]}')
 
-    out = args.out or args.events.replace("_events.jsonl", f"_overlays_{args.mode}.json")
+    out = args.out or args.events.replace("_events.jsonl", f"_overlays_{args.mode}{'' if args.lang == 'en' else '_' + args.lang}.json")
     with open(out, "w", encoding="utf-8") as f:
         json.dump(results, f, indent=2)
     print(f"\n{summary['total']} overlays -> {out}")

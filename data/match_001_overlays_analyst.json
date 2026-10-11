@@ -185,20 +185,10 @@
     "base_text": "Northbridge Rovers are dominating the ball: 75% of the passes in the last 5 minutes.",
     "mode": "analyst",
     "writer": "local-template",
-    "attempts": 2,
+    "attempts": 1,
     "check_log": [
       {
         "attempt": 1,
-        "stage": "text",
-        "text": "Eastvale United have 75% of the passes over the last 5 minutes.",
-        "ok": false,
-        "issues": [
-          "Eastvale United is mentioned but is not part of this moment",
-          "the caption does not name Northbridge Rovers"
-        ]
-      },
-      {
-        "attempt": 2,
         "stage": "text",
         "text": "Northbridge Rovers have 75% of the passes over the last 5 minutes.",
         "ok": true,
@@ -340,20 +330,10 @@
     "base_text": "Ethan Vasquez had a big chance for Eastvale United: xG 0.277, about a 28% chance of scoring, and the shot was saved.",
     "mode": "analyst",
     "writer": "local-template",
-    "attempts": 2,
+    "attempts": 1,
     "check_log": [
       {
         "attempt": 1,
-        "stage": "text",
-        "text": "Bruno Sterling-Vale (EVU): xG 0.277, a 28% chance, struck at 96 km/h from 5 m. The shot was saved.",
-        "ok": false,
-        "issues": [
-          "Bruno Sterling-Vale is mentioned but is not part of this moment",
-          "the caption does not name Ethan Vasquez"
-        ]
-      },
-      {
-        "attempt": 2,
         "stage": "text",
         "text": "Ethan Vasquez (EVU): xG 0.277, a 28% chance, struck at 96 km/h from 5 m. The shot was saved.",
         "ok": true,
@@ -451,20 +431,10 @@
     "base_text": "Eastvale United are dominating the ball: 70% of the passes in the last 5 minutes.",
     "mode": "analyst",
     "writer": "local-template",
-    "attempts": 2,
+    "attempts": 1,
     "check_log": [
       {
         "attempt": 1,
-        "stage": "text",
-        "text": "Northbridge Rovers have 70% of the passes over the last 5 minutes.",
-        "ok": false,
-        "issues": [
-          "Northbridge Rovers is mentioned but is not part of this moment",
-          "the caption does not name Eastvale United"
-        ]
-      },
-      {
-        "attempt": 2,
         "stage": "text",
         "text": "Eastvale United have 70% of the passes over the last 5 minutes.",
         "ok": true,
@@ -553,19 +523,10 @@
     "base_text": "Luca Abara completes a 33 m pass to Ugo Sterling-Vale, rated 10/10 for difficulty.",
     "mode": "analyst",
     "writer": "local-template",
-    "attempts": 2,
+    "attempts": 1,
     "check_log": [
       {
         "attempt": 1,
-        "stage": "text",
-        "text": "Luca Abara (EVU) completes a 33 m pass to Ugo Sterling-Vale, rated 10/11 for difficulty.",
-        "ok": false,
-        "issues": [
-          "the number 11 is not supported by the facts"
-        ]
-      },
-      {
-        "attempt": 2,
         "stage": "text",
         "text": "Luca Abara (EVU) completes a 33 m pass to Ugo Sterling-Vale, rated 10/10 for difficulty.",
         "ok": true,
@@ -714,19 +675,10 @@
     "base_text": "Eastvale United are pressing hard: 15 pressure actions in the last 5 minutes.",
     "mode": "analyst",
     "writer": "local-template",
-    "attempts": 2,
+    "attempts": 1,
     "check_log": [
       {
         "attempt": 1,
-        "stage": "text",
-        "text": "Eastvale United are pressing high: 15 pressure actions in 5 minutes. That is the 137th shot on target this season.",
-        "ok": false,
-        "issues": [
-          "the number 137 is not supported by the facts"
-        ]
-      },
-      {
-        "attempt": 2,
         "stage": "text",
         "text": "Eastvale United are pressing high: 15 pressure actions in 5 minutes.",
         "ok": true,
@@ -961,20 +913,10 @@
     "base_text": "Xavi Vasquez scores for Northbridge Rovers. NBR 2-3 EVU. Northbridge Rovers pull one back.",
     "mode": "analyst",
     "writer": "local-template",
-    "attempts": 2,
+    "attempts": 1,
     "check_log": [
       {
         "attempt": 1,
-        "stage": "text",
-        "text": "Ugo Sterling-Vale (NBR) scores: NBR 2-3 EVU. The shot carried an xG of 0.098 (10% chance) at 76 km/h. Northbridge Rovers cut the deficit to 1.",
-        "ok": false,
-        "issues": [
-          "Ugo Sterling-Vale is mentioned but is not part of this moment",
-          "the caption does not name Xavi Vasquez"
-        ]
-      },
-      {
-        "attempt": 2,
         "stage": "text",
         "text": "Xavi Vasquez (NBR) scores: NBR 2-3 EVU. The shot carried an xG of 0.098 (10% chance) at 76 km/h. Northbridge Rovers cut the deficit to 1.",
         "ok": true,
@@ -1119,19 +1061,10 @@
     "base_text": "Rafael Sterling-Vale (EVU) is shown a yellow card. Eastvale United now have 1 card in the match.",
     "mode": "analyst",
     "writer": "local-template",
-    "attempts": 2,
+    "attempts": 1,
     "check_log": [
       {
         "attempt": 1,
-        "stage": "text",
-        "text": "Rafael Sterling-Vale (EVU) is booked. Eastvale United have 1 card in the match. That is the 137th shot on target this season.",
-        "ok": false,
-        "issues": [
-          "the number 137 is not supported by the facts"
-        ]
-      },
-      {
-        "attempt": 2,
         "stage": "text",
         "text": "Rafael Sterling-Vale (EVU) is booked. Eastvale United have 1 card in the match.",
         "ok": true,
@@ -1318,20 +1251,10 @@
     "base_text": "Ethan Vasquez completes a 36 m pass to Viktor Dunmore, rated 10/10 for difficulty.",
     "mode": "analyst",
     "writer": "local-template",
-    "attempts": 2,
+    "attempts": 1,
     "check_log": [
       {
         "attempt": 1,
-        "stage": "text",
-        "text": "Bruno Sterling-Vale (EVU) completes a 36 m pass to Viktor Dunmore, rated 10/10 for difficulty.",
-        "ok": false,
-        "issues": [
-          "Bruno Sterling-Vale is mentioned but is not part of this moment",
-          "the caption does not name Ethan Vasquez"
-        ]
-      },
-      {
-        "attempt": 2,
         "stage": "text",
         "text": "Ethan Vasquez (EVU) completes a 36 m pass to Viktor Dunmore, rated 10/10 for difficulty.",
         "ok": true,
@@ -1429,19 +1352,10 @@
     "base_text": "The game has settled. Just 1.4 turnovers a minute and 88.0% pass completion over the last 5 minutes. Northbridge Rovers have 56% of the passing.",
     "mode": "analyst",
     "writer": "local-template",
-    "attempts": 2,
+    "attempts": 1,
     "check_log": [
       {
         "attempt": 1,
-        "stage": "text",
-        "text": "Control: 1.4 turnovers a minute, 88.0% pass completion over the last 5 minutes, chaos index 0.24. That is the 137th shot on target this season.",
-        "ok": false,
-        "issues": [
-          "the number 137 is not supported by the facts"
-        ]
-      },
-      {
-        "attempt": 2,
         "stage": "text",
         "text": "Control: 1.4 turnovers a minute, 88.0% pass completion over the last 5 minutes, chaos index 0.24.",
         "ok": true,
